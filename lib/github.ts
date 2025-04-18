@@ -17,10 +17,10 @@ export async function getGithubProjects(): Promise<Project[]> {
     // const data = await response.json();
 
     // Import the projects from the JSON file
-    const { getProjects } = await import("./data");
+    const { getProjects } = await import('./data');
     return getProjects();
   } catch (error) {
-    console.error("Error fetching GitHub projects:", error);
+    console.error('Error fetching GitHub projects:', error);
     return [];
   }
 }

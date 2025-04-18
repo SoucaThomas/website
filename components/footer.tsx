@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { Logo } from "@/components/logo";
-import { Github, Mail } from "lucide-react";
+import Link from 'next/link';
+import { Logo } from '@/components/logo';
+import { Github, Mail } from 'lucide-react';
 
 export function Footer() {
   return (

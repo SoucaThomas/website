@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { ArrowDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Logo } from "@/components/logo";
-import { PatternBackground } from "@/components/pattern-background";
+import { motion } from 'framer-motion';
+import { ArrowDown } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Logo } from '@/components/logo';
+import { PatternBackground } from '@/components/pattern-background';
 
 export function HeroSection() {
   const scrollToAbout = () => {
-    const aboutSection = document.getElementById("about");
+    const aboutSection = document.getElementById('about');
     if (aboutSection) {
       const y = aboutSection.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top: y, behavior: "smooth" });
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
 
@@ -44,10 +44,7 @@ export function HeroSection() {
           <Logo size="large" />
         </motion.div>
 
-        <motion.h1
-          variants={item}
-          className="text-4xl md:text-6xl font-bold tracking-tighter"
-        >
+        <motion.h1 variants={item} className="text-4xl md:text-6xl font-bold tracking-tighter">
           Souca Thomas
         </motion.h1>
 
@@ -55,17 +52,12 @@ export function HeroSection() {
           variants={item}
           className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto"
         >
-          Full-Stack Web Developer focused on crafting seamless user experiences
-          with Next.js & Express.
+          Full-Stack Web Developer focused on crafting seamless user experiences with Next.js &
+          Express.
         </motion.p>
 
         <motion.div variants={item}>
-          <Button
-            onClick={scrollToAbout}
-            variant="outline"
-            size="lg"
-            className="rounded-full mt-8"
-          >
+          <Button onClick={scrollToAbout} variant="outline" size="lg" className="rounded-full mt-8">
             Learn More <ArrowDown className="ml-2 h-4 w-4" />
           </Button>
         </motion.div>

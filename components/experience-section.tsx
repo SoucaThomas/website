@@ -1,17 +1,11 @@
-"use client";
+'use client';
 
-import { motion, useInView } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
-import { Section } from "@/components/section";
-import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { getExperience, type Experience } from "@/lib/data";
+import { motion, useInView } from 'framer-motion';
+import { useRef, useEffect, useState } from 'react';
+import { Section } from '@/components/section';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { getExperience, type Experience } from '@/lib/data';
 
 export function ExperienceSection() {
   const [experiences, setExperiences] = useState<Experience[]>([]);
@@ -24,7 +18,7 @@ export function ExperienceSection() {
         const data = getExperience();
         setExperiences(data);
       } catch (error) {
-        console.error("Error loading experience data:", error);
+        console.error('Error loading experience data:', error);
       } finally {
         setIsLoading(false);
       }
@@ -43,28 +37,16 @@ export function ExperienceSection() {
       <div className="space-y-8 mt-12">
         {isLoading
           ? // Show skeleton loaders while loading
-            Array.from({ length: 3 }).map((_, index) => (
-              <ExperienceCardSkeleton key={index} />
-            ))
+            Array.from({ length: 3 }).map((_, index) => <ExperienceCardSkeleton key={index} />)
           : experiences.map((experience, index) => (
-              <ExperienceCard
-                key={index}
-                experience={experience}
-                index={index}
-              />
+              <ExperienceCard key={index} experience={experience} index={index} />
             ))}
       </div>
     </Section>
   );
 }
 
-function ExperienceCard({
-  experience,
-  index,
-}: {
-  experience: Experience;
-  index: number;
-}) {
+function ExperienceCard({ experience, index }: { experience: Experience; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
@@ -132,10 +114,7 @@ function ExperienceCardSkeleton() {
           <div className="h-5 w-40 bg-muted rounded mb-2 animate-pulse" />
           <div className="space-y-2">
             {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="h-4 w-full bg-muted rounded animate-pulse"
-              />
+              <div key={i} className="h-4 w-full bg-muted rounded animate-pulse" />
             ))}
           </div>
         </div>
@@ -143,10 +122,7 @@ function ExperienceCardSkeleton() {
           <div className="h-5 w-40 bg-muted rounded mb-2 animate-pulse" />
           <div className="flex flex-wrap gap-2">
             {[1, 2, 3, 4].map((i) => (
-              <div
-                key={i}
-                className="h-6 w-20 bg-muted rounded animate-pulse"
-              />
+              <div key={i} className="h-6 w-20 bg-muted rounded animate-pulse" />
             ))}
           </div>
         </div>

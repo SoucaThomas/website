@@ -1,24 +1,18 @@
-"use client";
+'use client';
 
-import type React from "react";
-import { useState } from "react";
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Section } from "@/components/section";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/use-toast";
-import { Github, Mail } from "lucide-react";
-import Link from "next/link";
+import type React from 'react';
+import { useState } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
+import { Section } from '@/components/section';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { toast } from '@/components/ui/use-toast';
+import { Github, Mail } from 'lucide-react';
+import Link from 'next/link';
 
 export function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,7 +28,7 @@ export function ContactSection() {
     setTimeout(() => {
       setIsSubmitting(false);
       toast({
-        title: "Message sent!",
+        title: 'Message sent!',
         description: "Thank you for your message. I'll get back to you soon.",
       });
       // Reset form
@@ -59,8 +53,7 @@ export function ContactSection() {
             <CardHeader>
               <CardTitle>Send a Message</CardTitle>
               <CardDescription>
-                Fill out the form below and I'll get back to you as soon as
-                possible.
+                Fill out the form below and I'll get back to you as soon as possible.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -71,20 +64,11 @@ export function ContactSection() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Your email"
-                    required
-                  />
+                  <Input id="email" type="email" placeholder="Your email" required />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="subject">Subject</Label>
-                  <Input
-                    id="subject"
-                    placeholder="Subject of your message"
-                    required
-                  />
+                  <Input id="subject" placeholder="Subject of your message" required />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="message">Message</Label>
@@ -95,12 +79,8 @@ export function ContactSection() {
                     required
                   />
                 </div>
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Sending..." : "Send Message"}
+                <Button type="submit" className="w-full" disabled={isSubmitting}>
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </Button>
               </form>
             </CardContent>
@@ -116,9 +96,7 @@ export function ContactSection() {
           <Card>
             <CardHeader>
               <CardTitle>Contact Information</CardTitle>
-              <CardDescription>
-                Alternative ways to reach out to me
-              </CardDescription>
+              <CardDescription>Alternative ways to reach out to me</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-start space-x-4">
@@ -126,18 +104,12 @@ export function ContactSection() {
                 <div>
                   <h3 className="font-medium">Email</h3>
                   <p className="text-sm text-muted-foreground mt-1">
-                    <Link
-                      href="mailto:thomassouca@gmail.com"
-                      className="hover:underline"
-                    >
+                    <Link href="mailto:thomassouca@gmail.com" className="hover:underline">
                       thomassouca@gmail.com
                     </Link>
                   </p>
                   <p className="text-sm text-muted-foreground mt-1">
-                    <Link
-                      href="mailto:thomas@souca.dev"
-                      className="hover:underline"
-                    >
+                    <Link href="mailto:thomas@souca.dev" className="hover:underline">
                       thomas@souca.dev
                     </Link>
                   </p>
@@ -167,15 +139,15 @@ export function ContactSection() {
             <CardHeader>
               <CardTitle>Let's Connect</CardTitle>
               <CardDescription>
-                I'm always open to discussing new projects, creative ideas, or
-                opportunities to be part of your vision.
+                I'm always open to discussing new projects, creative ideas, or opportunities to be
+                part of your vision.
               </CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Whether you have a question about my work, want to discuss a
-                potential collaboration, or just want to say hello, I'll try my
-                best to get back to you as soon as possible.
+                Whether you have a question about my work, want to discuss a potential
+                collaboration, or just want to say hello, I'll try my best to get back to you as
+                soon as possible.
               </p>
             </CardContent>
           </Card>

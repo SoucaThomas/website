@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Logo } from "@/components/logo";
-import { Menu, X } from "lucide-react";
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Logo } from '@/components/logo';
+import { Menu, X } from 'lucide-react';
 
 const links = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/projects", label: "Projects" },
-  { href: "/experience", label: "Experience" },
-  { href: "/skills", label: "Skills" },
-  { href: "/contact", label: "Contact" },
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/experience', label: 'Experience' },
+  { href: '/skills', label: 'Skills' },
+  { href: '/contact', label: 'Contact' },
 ];
 
 export function Navigation() {
@@ -30,13 +30,13 @@ export function Navigation() {
   // Prevent scrolling when mobile menu is open
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = 'unset';
     }
 
     return () => {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = 'unset';
     };
   }, [isOpen]);
 
@@ -55,10 +55,8 @@ export function Navigation() {
               key={link.href}
               href={link.href}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-foreground/80",
-                pathname === link.href
-                  ? "text-foreground"
-                  : "text-foreground/60",
+                'text-sm font-medium transition-colors hover:text-foreground/80',
+                pathname === link.href ? 'text-foreground' : 'text-foreground/60'
               )}
             >
               {link.label}
@@ -66,7 +64,7 @@ export function Navigation() {
                 <motion.div
                   className="h-[2px] bg-foreground mt-1"
                   layoutId="navigation-underline"
-                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                  transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                 />
               )}
             </Link>
@@ -90,7 +88,7 @@ export function Navigation() {
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
+            animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
             className="md:hidden border-b"
@@ -102,10 +100,8 @@ export function Navigation() {
                     key={link.href}
                     href={link.href}
                     className={cn(
-                      "flex items-center py-2 text-lg font-medium transition-colors hover:text-foreground/80",
-                      pathname === link.href
-                        ? "text-foreground"
-                        : "text-foreground/60",
+                      'flex items-center py-2 text-lg font-medium transition-colors hover:text-foreground/80',
+                      pathname === link.href ? 'text-foreground' : 'text-foreground/60'
                     )}
                   >
                     {link.label}

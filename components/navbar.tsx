@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { Logo } from "@/components/logo";
-import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
+import { Logo } from '@/components/logo';
+import { Button } from '@/components/ui/button';
+import { Menu, X } from 'lucide-react';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 interface NavbarProps {
   sections: { id: string; label: string }[];
@@ -14,11 +14,7 @@ interface NavbarProps {
   scrollToSection: (id: string) => void;
 }
 
-export function Navbar({
-  sections,
-  activeSection,
-  scrollToSection,
-}: NavbarProps) {
+export function Navbar({ sections, activeSection, scrollToSection }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -27,17 +23,15 @@ export function Navbar({
       setIsScrolled(window.scrollY > 10);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
     <header
       className={cn(
-        "fixed top-0 w-full z-50 transition-all duration-300",
-        isScrolled
-          ? "bg-background/80 backdrop-blur-md border-b py-3"
-          : "bg-transparent py-5"
+        'fixed top-0 w-full z-50 transition-all duration-300',
+        isScrolled ? 'bg-background/80 backdrop-blur-md border-b py-3' : 'bg-transparent py-5'
       )}
     >
       <div className="container flex items-center justify-between">
@@ -53,10 +47,8 @@ export function Navbar({
               key={section.id}
               onClick={() => scrollToSection(section.id)}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-foreground/80 relative",
-                activeSection === section.id
-                  ? "text-foreground"
-                  : "text-muted-foreground"
+                'text-sm font-medium transition-colors hover:text-foreground/80 relative',
+                activeSection === section.id ? 'text-foreground' : 'text-muted-foreground'
               )}
             >
               {section.label}
@@ -64,7 +56,7 @@ export function Navbar({
                 <motion.div
                   className="absolute -bottom-1 left-0 right-0 h-0.5 bg-foreground"
                   layoutId="activeSection"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                 />
               )}
             </button>
@@ -82,11 +74,7 @@ export function Navbar({
             size="icon"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
+            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
         </div>
       </div>
@@ -96,7 +84,7 @@ export function Navbar({
         className="md:hidden"
         initial={{ height: 0, opacity: 0 }}
         animate={{
-          height: isMobileMenuOpen ? "auto" : 0,
+          height: isMobileMenuOpen ? 'auto' : 0,
           opacity: isMobileMenuOpen ? 1 : 0,
         }}
         transition={{ duration: 0.3 }}
@@ -112,10 +100,8 @@ export function Navbar({
                     setIsMobileMenuOpen(false);
                   }}
                   className={cn(
-                    "text-left py-2 text-lg font-medium transition-colors hover:text-foreground/80",
-                    activeSection === section.id
-                      ? "text-foreground"
-                      : "text-muted-foreground"
+                    'text-left py-2 text-lg font-medium transition-colors hover:text-foreground/80',
+                    activeSection === section.id ? 'text-foreground' : 'text-muted-foreground'
                   )}
                 >
                   {section.label}

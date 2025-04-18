@@ -1,12 +1,6 @@
-import { AnimatedSection } from "@/components/animated-section";
-import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { AnimatedSection } from '@/components/animated-section';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function ExperiencePage() {
   return (
@@ -33,32 +27,19 @@ export default function ExperiencePage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              Leading development of modern web applications using Next.js,
-              Express.js, and TypeScript. Implementing best practices for
-              performance and scalability.
+              Leading development of modern web applications using Next.js, Express.js, and
+              TypeScript. Implementing best practices for performance and scalability.
             </p>
             <div>
               <h4 className="font-medium mb-2">Key Responsibilities:</h4>
               <ul className="list-disc pl-5 space-y-1">
                 <li>
-                  Architected and developed full-stack applications using
-                  Next.js and Express.js
+                  Architected and developed full-stack applications using Next.js and Express.js
                 </li>
-                <li>
-                  Led a team of 5 developers, providing technical guidance and
-                  code reviews
-                </li>
-                <li>
-                  Implemented CI/CD pipelines to streamline deployment processes
-                </li>
-                <li>
-                  Optimized application performance and improved loading times
-                  by 40%
-                </li>
-                <li>
-                  Collaborated with product managers to define and prioritize
-                  features
-                </li>
+                <li>Led a team of 5 developers, providing technical guidance and code reviews</li>
+                <li>Implemented CI/CD pipelines to streamline deployment processes</li>
+                <li>Optimized application performance and improved loading times by 40%</li>
+                <li>Collaborated with product managers to define and prioritize features</li>
               </ul>
             </div>
             <div>
@@ -90,9 +71,8 @@ export default function ExperiencePage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              Developed and maintained web applications using React and Node.js.
-              Collaborated with cross-functional teams to deliver high-quality
-              software solutions.
+              Developed and maintained web applications using React and Node.js. Collaborated with
+              cross-functional teams to deliver high-quality software solutions.
             </p>
             <div>
               <h4 className="font-medium mb-2">Key Responsibilities:</h4>
@@ -133,16 +113,13 @@ export default function ExperiencePage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              Built responsive user interfaces using HTML, CSS, and JavaScript.
-              Worked closely with designers to implement pixel-perfect designs.
+              Built responsive user interfaces using HTML, CSS, and JavaScript. Worked closely with
+              designers to implement pixel-perfect designs.
             </p>
             <div>
               <h4 className="font-medium mb-2">Key Responsibilities:</h4>
               <ul className="list-disc pl-5 space-y-1">
-                <li>
-                  Developed responsive web pages using HTML5, CSS3, and
-                  JavaScript
-                </li>
+                <li>Developed responsive web pages using HTML5, CSS3, and JavaScript</li>
                 <li>Implemented designs from Figma and Adobe XD</li>
                 <li>Optimized websites for cross-browser compatibility</li>
                 <li>Created interactive UI components and animations</li>

@@ -1,6 +1,6 @@
-import experienceData from "@/data/experience";
-import projectsData from "@/data/projects";
-import type { Project } from "./github";
+import experienceData from '@/data/experience';
+import projectsData from '@/data/projects';
+import type { Project } from './github';
 
 export interface Experience {
   title: string;

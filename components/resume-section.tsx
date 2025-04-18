@@ -1,19 +1,13 @@
-"use client";
+'use client';
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Section } from "@/components/section";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { FileDown } from "lucide-react";
-import Link from "next/link";
-import { PatternBackground } from "@/components/pattern-background";
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
+import { Section } from '@/components/section';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { FileDown } from 'lucide-react';
+import Link from 'next/link';
+import { PatternBackground } from '@/components/pattern-background';
 
 export function ResumeSection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -21,7 +15,7 @@ export function ResumeSection() {
 
   return (
     <Section className="pb-32">
-      {" "}
+      {' '}
       {/* Added extra padding to ensure scrollability */}
       <div className="relative">
         <PatternBackground variant="dots" />
@@ -34,9 +28,7 @@ export function ResumeSection() {
           <motion.div
             ref={ref}
             initial={{ opacity: 0, scale: 0.9 }}
-            animate={
-              isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }
-            }
+            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.5 }}
             className="relative z-10"
           >
@@ -44,8 +36,7 @@ export function ResumeSection() {
               <CardHeader>
                 <CardTitle>My Resume</CardTitle>
                 <CardDescription>
-                  Get a comprehensive overview of my professional experience,
-                  skills, and education.
+                  Get a comprehensive overview of my professional experience, skills, and education.
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col items-center">
@@ -53,11 +44,7 @@ export function ResumeSection() {
                   Click the button below to download my resume in PDF format.
                 </p>
                 <Button asChild size="lg">
-                  <Link
-                    href="/resume.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <Link href="/resume.pdf" target="_blank" rel="noopener noreferrer">
                     <FileDown className="mr-2 h-5 w-5" /> Download Resume
                   </Link>
                 </Button>

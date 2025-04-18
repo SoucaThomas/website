@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Section } from "@/components/section";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ExternalLink, Github } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { getProjects } from "@/lib/data";
-import type { Project } from "@/lib/github";
+import { useState, useEffect } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
+import { Section } from '@/components/section';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { ExternalLink, Github } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { getProjects } from '@/lib/data';
+import type { Project } from '@/lib/github';
 
 export function ProjectsSection() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -24,7 +24,7 @@ export function ProjectsSection() {
         const data = getProjects();
         setProjects(data);
       } catch (error) {
-        console.error("Error fetching projects:", error);
+        console.error('Error fetching projects:', error);
       } finally {
         setIsLoading(false);
       }
@@ -71,7 +71,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       <Card className="overflow-hidden h-full flex flex-col hover:shadow-lg transition-shadow duration-300">
         <div className="relative aspect-video">
           <Image
-            src={project.image || "/placeholder.svg?height=225&width=400"}
+            src={project.image || '/placeholder.svg?height=225&width=400'}
             alt={project.name}
             fill
             className="object-cover"
@@ -82,7 +82,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             <div>
               <h3 className="font-semibold text-xl">{project.name}</h3>
               <p className="text-sm text-muted-foreground mt-1 line-clamp-3">
-                {project.description || "No description available"}
+                {project.description || 'No description available'}
               </p>
             </div>
 
@@ -100,22 +100,14 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         <CardFooter className="px-6 pb-6 pt-0 flex gap-2">
           {project.homepage && (
             <Button asChild variant="default" size="sm">
-              <Link
-                href={project.homepage}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <Link href={project.homepage} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="mr-2 h-4 w-4" />
                 Demo
               </Link>
             </Button>
           )}
           <Button asChild variant="outline" size="sm">
-            <Link
-              href={project.html_url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Link href={project.html_url} target="_blank" rel="noopener noreferrer">
               <Github className="mr-2 h-4 w-4" />
               GitHub
             </Link>

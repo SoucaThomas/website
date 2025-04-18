@@ -1,18 +1,15 @@
-"use client";
+'use client';
 
-import { useTheme } from "next-themes";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useTheme } from 'next-themes';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 interface PatternBackgroundProps {
-  variant?: "default" | "subtle" | "dots";
+  variant?: 'default' | 'subtle' | 'dots';
   className?: string;
 }
 
-export function PatternBackground({
-  variant = "default",
-  className,
-}: PatternBackgroundProps) {
+export function PatternBackground({ variant = 'default', className }: PatternBackgroundProps) {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -23,25 +20,25 @@ export function PatternBackground({
 
   if (!mounted) return null;
 
-  const isDark = theme === "dark";
+  const isDark = theme === 'dark';
 
-  if (variant === "dots") {
+  if (variant === 'dots') {
     return (
       <div className="absolute inset-0 overflow-hidden opacity-20">
         <div
           className="absolute inset-0"
           style={{
             backgroundImage: `radial-gradient(circle, ${
-              isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)"
+              isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
             } 1px, transparent 1px)`,
-            backgroundSize: "30px 30px",
+            backgroundSize: '30px 30px',
           }}
         />
       </div>
     );
   }
 
-  if (variant === "subtle") {
+  if (variant === 'subtle') {
     return (
       <div className="absolute inset-0 overflow-hidden opacity-30">
         <svg
@@ -65,9 +62,7 @@ export function PatternBackground({
                 y1="0"
                 x2="20"
                 y2="40"
-                stroke={
-                  isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.05)"
-                }
+                stroke={isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'}
                 strokeWidth="1"
               />
             </pattern>
@@ -93,19 +88,12 @@ export function PatternBackground({
         height="100%"
       >
         <defs>
-          <pattern
-            id="grid-pattern"
-            width="60"
-            height="60"
-            patternUnits="userSpaceOnUse"
-          >
+          <pattern id="grid-pattern" width="60" height="60" patternUnits="userSpaceOnUse">
             <rect width="60" height="60" fill="none" />
             <path
               d="M 60 0 L 0 0 0 60"
               fill="none"
-              stroke={
-                isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)"
-              }
+              stroke={isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}
               strokeWidth="1"
             />
           </pattern>

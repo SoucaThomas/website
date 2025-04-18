@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { useEffect, useState } from 'react';
+import { motion, useScroll, useSpring } from 'framer-motion';
 
 export function ScrollProgressBar() {
   const { scrollYProgress } = useScroll();
@@ -19,8 +19,8 @@ export function ScrollProgressBar() {
       setIsAtTop(window.scrollY < 10);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
@@ -29,7 +29,7 @@ export function ScrollProgressBar() {
       style={{
         scaleX,
         opacity: isAtTop ? 0 : 1,
-        transition: "opacity 0.3s ease",
+        transition: 'opacity 0.3s ease',
       }}
     />
   );

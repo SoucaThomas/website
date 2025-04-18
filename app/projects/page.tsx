@@ -1,6 +1,6 @@
-import { AnimatedSection } from "@/components/animated-section";
-import { ProjectCard } from "@/components/project-card";
-import { getGithubProjects } from "@/lib/github";
+import { AnimatedSection } from '@/components/animated-section';
+import { ProjectCard } from '@/components/project-card';
+import { getGithubProjects } from '@/lib/github';
 
 export default async function ProjectsPage() {
   const projects = await getGithubProjects();
@@ -17,11 +17,7 @@ export default async function ProjectsPage() {
       <AnimatedSection delay={0.1} className="mt-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {projects.map((project, index) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              delay={0.1 + index * 0.05}
-            />
+            <ProjectCard key={project.id} project={project} delay={0.1 + index * 0.05} />
           ))}
         </div>
       </AnimatedSection>

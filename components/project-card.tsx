@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ExternalLink, Github } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import type { Project } from "@/lib/github";
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { ExternalLink, Github } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import type { Project } from '@/lib/github';
 
 interface ProjectCardProps {
   project: Project;
@@ -28,7 +28,7 @@ export function ProjectCard({ project, delay = 0 }: ProjectCardProps) {
       <Card className="overflow-hidden h-full flex flex-col">
         <div className="relative aspect-video">
           <Image
-            src={project.image || "/placeholder.svg?height=225&width=400"}
+            src={project.image || '/placeholder.svg?height=225&width=400'}
             alt={project.name}
             fill
             className="object-cover"
@@ -39,7 +39,7 @@ export function ProjectCard({ project, delay = 0 }: ProjectCardProps) {
             <div>
               <h3 className="font-semibold text-xl">{project.name}</h3>
               <p className="text-sm text-muted-foreground mt-1 line-clamp-3">
-                {project.description || "No description available"}
+                {project.description || 'No description available'}
               </p>
             </div>
 
@@ -57,22 +57,14 @@ export function ProjectCard({ project, delay = 0 }: ProjectCardProps) {
         <CardFooter className="px-6 pb-6 pt-0 flex gap-2">
           {project.homepage && (
             <Button asChild variant="default" size="sm">
-              <Link
-                href={project.homepage}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <Link href={project.homepage} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="mr-2 h-4 w-4" />
                 Demo
               </Link>
             </Button>
           )}
           <Button asChild variant="outline" size="sm">
-            <Link
-              href={project.html_url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Link href={project.html_url} target="_blank" rel="noopener noreferrer">
               <Github className="mr-2 h-4 w-4" />
               GitHub
             </Link>
