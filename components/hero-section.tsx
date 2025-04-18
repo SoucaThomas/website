@@ -52,8 +52,7 @@ export function HeroSection() {
           variants={item}
           className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto"
         >
-          Full-Stack Web Developer focused on crafting seamless user experiences with Next.js &
-          Express.
+          Full-Stack Web Developer based in Romania focused on crafting seamless user experiences
         </motion.p>
 
         <motion.div variants={item}>

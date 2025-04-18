@@ -62,6 +62,12 @@ html {
   scroll-behavior: smooth;
 }
 
+* {
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
 .section {
   @apply py-16 md:py-24;
 }
