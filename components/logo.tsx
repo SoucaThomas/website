@@ -16,16 +16,18 @@ export function Logo({ size = 'medium' }: LogoProps) {
 
   return (
     <motion.div
-      className={cn(
-        'relative flex items-center justify-center rounded-md bg-primary text-primary-foreground font-bold',
-        sizes[size]
-      )}
+      className={cn('relative flex items-center justify-center rounded-md  font-bold', sizes[size])}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
-      <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
-        ST
-      </motion.span>
+      <motion.img
+        src="/memoji.png"
+        alt="Logo"
+        className="h-full w-full object-contain"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+      />
     </motion.div>
   );
 }
