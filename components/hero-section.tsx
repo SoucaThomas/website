@@ -52,7 +52,8 @@ export function HeroSection() {
           variants={item}
           className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto"
         >
-          Full-Stack Web Developer based in Romania focused on crafting seamless user experiences
+          I’m a Full-Stack Web Developer from <span className="text-white">Romania</span>, focused
+          on creating user-friendly and efficient web applications.
         </motion.p>
 
         <motion.div variants={item}>

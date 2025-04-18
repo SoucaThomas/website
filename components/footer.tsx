@@ -27,7 +27,7 @@ export function Footer() {
             <span className="sr-only">GitHub</span>
           </Link>
           <Link
-            href="mailto:thomassouca@gmail.com"
+            href="mailto:thomas@souca.dev"
             className="text-muted-foreground hover:text-foreground transition-colors"
           >
             <Mail className="h-5 w-5" />

@@ -104,11 +104,6 @@ export function ContactSection() {
                 <div>
                   <h3 className="font-medium">Email</h3>
                   <p className="text-sm text-muted-foreground mt-1">
-                    <Link href="mailto:thomassouca@gmail.com" className="hover:underline">
-                      thomassouca@gmail.com
-                    </Link>
-                  </p>
-                  <p className="text-sm text-muted-foreground mt-1">
                     <Link href="mailto:thomas@souca.dev" className="hover:underline">
                       thomas@souca.dev
                     </Link>
