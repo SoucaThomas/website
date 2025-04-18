@@ -24,7 +24,7 @@ export function PatternBackground({ variant = 'default', className }: PatternBac
 
   if (variant === 'dots') {
     return (
-      <div className="absolute inset-0 overflow-hidden opacity-20">
+      <div className="absolute inset-0 overflow-hidden ">
         <div
           className="absolute inset-0"
           style={{
@@ -40,7 +40,7 @@ export function PatternBackground({ variant = 'default', className }: PatternBac
 
   if (variant === 'subtle') {
     return (
-      <div className="absolute inset-0 overflow-hidden opacity-30">
+      <div className="absolute inset-0 overflow-hidden opacity-50">
         <svg
           className="absolute h-full w-full"
           xmlns="http://www.w3.org/2000/svg"
