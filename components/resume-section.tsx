@@ -15,10 +15,8 @@ export function ResumeSection() {
 
   return (
     <Section className="pb-32">
-      {' '}
       {/* Added extra padding to ensure scrollability */}
       <div className="relative">
-        <PatternBackground variant="dots" />
         <h2 className="section-title relative z-10">Resume</h2>
         <p className="section-subtitle mx-auto text-center relative z-10">
           Download my resume to learn more about my experience and skills

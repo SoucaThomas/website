@@ -24,12 +24,12 @@ export function PatternBackground({ variant = 'default', className }: PatternBac
 
   if (variant === 'dots') {
     return (
-      <div className="absolute inset-0 overflow-hidden ">
+      <div className="absolute inset-0 overflow-hidden opacity-50">
         <div
           className="absolute inset-0"
           style={{
             backgroundImage: `radial-gradient(circle, ${
-              isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+              isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.2)'
             } 1px, transparent 1px)`,
             backgroundSize: '30px 30px',
           }}
@@ -62,7 +62,7 @@ export function PatternBackground({ variant = 'default', className }: PatternBac
                 y1="0"
                 x2="20"
                 y2="40"
-                stroke={isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'}
+                stroke={isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.1)'}
                 strokeWidth="1"
               />
             </pattern>
@@ -77,7 +77,7 @@ export function PatternBackground({ variant = 'default', className }: PatternBac
   return (
     <motion.div
       initial={{ opacity: 0 }}
-      animate={{ opacity: 0.15 }}
+      animate={{ opacity: 0.5 }}
       transition={{ duration: 1 }}
       className="absolute inset-0 overflow-hidden"
     >
@@ -93,7 +93,7 @@ export function PatternBackground({ variant = 'default', className }: PatternBac
             <path
               d="M 60 0 L 0 0 0 60"
               fill="none"
-              stroke={isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}
+              stroke={isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.2)'}
               strokeWidth="1"
             />
           </pattern>
@@ -102,7 +102,11 @@ export function PatternBackground({ variant = 'default', className }: PatternBac
       </svg>
 
       {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
+      <div
+        className={`absolute inset-0 bg-gradient-to-b from-transparent via-transparent ${
+          isDark ? 'to-background' : 'to-gray-200'
+        }`}
+      />
     </motion.div>
   );
 }

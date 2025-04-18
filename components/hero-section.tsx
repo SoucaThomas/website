@@ -73,7 +73,9 @@ export function HeroSection() {
           animate={{ y: [0, 10, 0] }}
           transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5 }}
         >
-          <ArrowDown className="h-6 w-6 text-muted-foreground" />
+          <Button variant="outline" className="rounded-full size-10 p-2" onClick={scrollToAbout}>
+            <ArrowDown className="h-6 w-6 text-muted-foreground" />
+          </Button>
         </motion.div>
       </motion.div>
     </div>

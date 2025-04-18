@@ -27,7 +27,6 @@ export function TechnologiesSection() {
   return (
     <Section>
       <div className="relative">
-        <PatternBackground variant="subtle" />
         <h2 className="section-title relative z-10">Technologies</h2>
         <p className="section-subtitle mx-auto text-center relative z-10">
           Tools and technologies I work with

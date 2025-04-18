@@ -97,14 +97,16 @@ export default function Home() {
           <PatternBackground variant="dots" />
           <ExperienceSection />
         </div>
-        <div ref={technologiesRef} id="technologies">
+        <div ref={technologiesRef} id="technologies" className="relative">
+          <PatternBackground variant="subtle" />
           <TechnologiesSection />
         </div>
         <div ref={contactRef} id="contact" className="relative">
           <PatternBackground variant="subtle" />
           <ContactSection />
         </div>
-        <div ref={resumeRef} id="resume">
+        <div ref={resumeRef} id="resume" className="relative">
+          <PatternBackground variant="dots" />
           <ResumeSection />
         </div>
       </main>
