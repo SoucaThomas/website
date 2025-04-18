@@ -12,6 +12,7 @@ import { ResumeSection } from '@/components/resume-section';
 import { Footer } from '@/components/footer';
 import { PatternBackground } from '@/components/pattern-background';
 import { ScrollProgressBar } from '@/components/scroll-progress-bar';
+import { BackgroundBeamsWithCollision } from '@/components/ui/background-beams-with-collision';
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -84,7 +85,9 @@ export default function Home() {
       <Navbar sections={sections} activeSection={activeSection} scrollToSection={scrollToSection} />
       <main>
         <div ref={heroRef} id="hero">
-          <HeroSection />
+          <BackgroundBeamsWithCollision className="relative min-h-screen flex w-full flex-col justify-center items-center text-center pt-16 overflow-hidden bg-transparent">
+            <HeroSection />
+          </BackgroundBeamsWithCollision>
         </div>
         <div ref={aboutRef} id="about" className="relative">
           <PatternBackground variant="subtle" />

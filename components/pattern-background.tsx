@@ -3,6 +3,7 @@
 import { useTheme } from 'next-themes';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { BackgroundBeamsWithCollision } from './ui/background-beams-with-collision';
 
 interface PatternBackgroundProps {
   variant?: 'default' | 'subtle' | 'dots';

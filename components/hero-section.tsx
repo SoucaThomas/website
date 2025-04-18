@@ -31,7 +31,7 @@ export function HeroSection() {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col justify-center items-center text-center px-4 pt-16 overflow-hidden">
+    <div className="relative min-h-screen w-full flex flex-col justify-center items-center text-center px-4 pt-16 overflow-hidden z-10">
       <PatternBackground />
 
       <motion.div
