@@ -10,7 +10,8 @@ import { Button } from "@/components/ui/button";
 import { ExternalLink, Github } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { getGithubProjects, type Project } from "@/lib/github";
+import { getProjects } from "@/lib/data";
+import type { Project } from "@/lib/github";
 
 export function ProjectsSection() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -19,7 +20,8 @@ export function ProjectsSection() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const data = await getGithubProjects();
+        // Simulate loading from an API for a smoother experience
+        const data = getProjects();
         setProjects(data);
       } catch (error) {
         console.error("Error fetching projects:", error);

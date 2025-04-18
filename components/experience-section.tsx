@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Section } from "@/components/section";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -11,80 +11,28 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
-const experiences = [
-  {
-    title: "Senior Full-Stack Developer",
-    company: "Company Name",
-    period: "2021 - Present",
-    description:
-      "Leading development of modern web applications using Next.js, Express.js, and TypeScript. Implementing best practices for performance and scalability.",
-    responsibilities: [
-      "Architected and developed full-stack applications using Next.js and Express.js",
-      "Led a team of 5 developers, providing technical guidance and code reviews",
-      "Implemented CI/CD pipelines to streamline deployment processes",
-      "Optimized application performance and improved loading times by 40%",
-      "Collaborated with product managers to define and prioritize features",
-    ],
-    technologies: [
-      "Next.js",
-      "Express.js",
-      "TypeScript",
-      "MongoDB",
-      "PostgreSQL",
-      "Docker",
-      "AWS",
-    ],
-  },
-  {
-    title: "Full-Stack Developer",
-    company: "Previous Company",
-    period: "2018 - 2021",
-    description:
-      "Developed and maintained web applications using React and Node.js. Collaborated with cross-functional teams to deliver high-quality software solutions.",
-    responsibilities: [
-      "Built responsive user interfaces with React and Redux",
-      "Developed RESTful APIs using Node.js and Express",
-      "Implemented authentication and authorization systems",
-      "Wrote unit and integration tests to ensure code quality",
-      "Participated in agile development processes",
-    ],
-    technologies: [
-      "React",
-      "Redux",
-      "Node.js",
-      "Express",
-      "JavaScript",
-      "MySQL",
-      "Jest",
-    ],
-  },
-  {
-    title: "Frontend Developer",
-    company: "First Company",
-    period: "2016 - 2018",
-    description:
-      "Built responsive user interfaces using HTML, CSS, and JavaScript. Worked closely with designers to implement pixel-perfect designs.",
-    responsibilities: [
-      "Developed responsive web pages using HTML5, CSS3, and JavaScript",
-      "Implemented designs from Figma and Adobe XD",
-      "Optimized websites for cross-browser compatibility",
-      "Created interactive UI components and animations",
-      "Collaborated with backend developers to integrate APIs",
-    ],
-    technologies: [
-      "HTML5",
-      "CSS3",
-      "JavaScript",
-      "jQuery",
-      "SASS",
-      "Bootstrap",
-      "Git",
-    ],
-  },
-];
+import { getExperience, type Experience } from "@/lib/data";
 
 export function ExperienceSection() {
+  const [experiences, setExperiences] = useState<Experience[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading from an API for a smoother experience
+    const loadExperience = async () => {
+      try {
+        const data = getExperience();
+        setExperiences(data);
+      } catch (error) {
+        console.error("Error loading experience data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadExperience();
+  }, []);
+
   return (
     <Section>
       <h2 className="section-title">Experience</h2>
@@ -93,9 +41,18 @@ export function ExperienceSection() {
       </p>
 
       <div className="space-y-8 mt-12">
-        {experiences.map((experience, index) => (
-          <ExperienceCard key={index} experience={experience} index={index} />
-        ))}
+        {isLoading
+          ? // Show skeleton loaders while loading
+            Array.from({ length: 3 }).map((_, index) => (
+              <ExperienceCardSkeleton key={index} />
+            ))
+          : experiences.map((experience, index) => (
+              <ExperienceCard
+                key={index}
+                experience={experience}
+                index={index}
+              />
+            ))}
       </div>
     </Section>
   );
@@ -105,7 +62,7 @@ function ExperienceCard({
   experience,
   index,
 }: {
-  experience: any;
+  experience: Experience;
   index: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -135,17 +92,15 @@ function ExperienceCard({
           <div>
             <h4 className="font-medium mb-2">Key Responsibilities:</h4>
             <ul className="list-disc pl-5 space-y-1">
-              {experience.responsibilities.map(
-                (responsibility: string, i: number) => (
-                  <li key={i}>{responsibility}</li>
-                ),
-              )}
+              {experience.responsibilities.map((responsibility, i) => (
+                <li key={i}>{responsibility}</li>
+              ))}
             </ul>
           </div>
           <div>
             <h4 className="font-medium mb-2">Technologies Used:</h4>
             <div className="flex flex-wrap gap-2">
-              {experience.technologies.map((tech: string) => (
+              {experience.technologies.map((tech) => (
                 <Badge key={tech} variant="secondary">
                   {tech}
                 </Badge>
@@ -155,5 +110,47 @@ function ExperienceCard({
         </CardContent>
       </Card>
     </motion.div>
+  );
+}
+
+function ExperienceCardSkeleton() {
+  return (
+    <Card>
+      <CardHeader>
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+          <div>
+            <div className="h-7 w-48 bg-muted rounded animate-pulse" />
+            <div className="h-5 w-32 bg-muted rounded mt-1 animate-pulse" />
+          </div>
+          <div className="h-6 w-24 bg-muted rounded animate-pulse" />
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="h-4 w-full bg-muted rounded animate-pulse" />
+        <div className="h-4 w-5/6 bg-muted rounded animate-pulse" />
+        <div>
+          <div className="h-5 w-40 bg-muted rounded mb-2 animate-pulse" />
+          <div className="space-y-2">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="h-4 w-full bg-muted rounded animate-pulse"
+              />
+            ))}
+          </div>
+        </div>
+        <div>
+          <div className="h-5 w-40 bg-muted rounded mb-2 animate-pulse" />
+          <div className="flex flex-wrap gap-2">
+            {[1, 2, 3, 4].map((i) => (
+              <div
+                key={i}
+                className="h-6 w-20 bg-muted rounded animate-pulse"
+              />
+            ))}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
