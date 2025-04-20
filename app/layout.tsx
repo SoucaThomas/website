@@ -4,6 +4,8 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { SetupEmailJS } from '@/components/setup-emailjs';
+import { Toaster } from '@/components/ui/toaster';
+import { Analytics } from '@/components/analytics';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -29,6 +31,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <SetupEmailJS />
+          <Toaster />
           {children}
         </ThemeProvider>
       </body>
