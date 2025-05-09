@@ -12,6 +12,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getProjects } from '@/lib/data';
 import type { Project } from '@/lib/github';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export function ProjectsSection() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -59,7 +60,8 @@ export function ProjectsSection() {
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const isMobile = useIsMobile();
+  const isInView = useInView(ref, { once: true, amount: isMobile ? 0 : 0.2 });
 
   return (
     <motion.div

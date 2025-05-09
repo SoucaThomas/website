@@ -6,6 +6,7 @@ import { Section } from '@/components/section';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { getExperience, type Experience } from '@/lib/data';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export function ExperienceSection() {
   const [experiences, setExperiences] = useState<Experience[]>([]);
@@ -48,7 +49,8 @@ export function ExperienceSection() {
 
 function ExperienceCard({ experience, index }: { experience: Experience; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const isMobile = useIsMobile();
+  const isInView = useInView(ref, { once: true, amount: isMobile ? 0.02 : 0.2 });
 
   return (
     <motion.div
