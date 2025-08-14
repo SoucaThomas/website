@@ -134,7 +134,7 @@ function TechnologyCategory({ category, index }: { category: any; index: number 
 
             <motion.div
                 variants={container}
-                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center"
+                className="flex flex-wrap min-w-full gap-20 justify-center items-center"
             >
                 {category.technologies.map((tech: any) => (
                     <TechnologyCard key={tech.name} technology={tech} />
