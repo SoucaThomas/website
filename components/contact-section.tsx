@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/use-toast';
-import { Github, Mail, Loader2 } from 'lucide-react';
+import { Github, Mail, Loader2, MessageSquare, Send, MapPin, Calendar } from 'lucide-react';
 import Link from 'next/link';
 import emailjs from '@emailjs/browser';
 
@@ -148,89 +148,108 @@ export function ContactSection() {
 
   return (
     <Section>
-      <h2 className="section-title">Contact</h2>
-      <p className="section-subtitle mx-auto text-center">
-        Get in touch with me for collaborations or opportunities
-      </p>
+      <div className="text-center mb-16">
+        <h2 className="section-title">Let's Connect</h2>
+        <p className="section-subtitle max-w-3xl mx-auto">
+          Ready to start a conversation? I'm always open to discussing new projects,
+          creative ideas, or opportunities to be part of your vision.
+        </p>
+      </div>
 
-      <div className="grid md:grid-cols-2 gap-8 mt-12">
+      <div className="grid lg:grid-cols-2 gap-12 mt-12">
+        {/* Contact Form */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, x: -30 }}
+          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+          transition={{ duration: 0.6 }}
         >
-          <Card>
-            <CardHeader>
-              <CardTitle>Send a Message</CardTitle>
-              <CardDescription>
+          <Card className="border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm shadow-xl">
+            <CardHeader className="text-center pb-6">
+              <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                <MessageSquare className="w-6 h-6 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Send a Message</CardTitle>
+              <CardDescription className="text-base">
                 Fill out the form below and I'll get back to you as soon as possible.
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
-                  <Input
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Your name"
-                    className={formErrors.name ? 'border-destructive' : ''}
-                  />
-                  {formErrors.name && <p className="text-sm text-destructive">{formErrors.name}</p>}
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name" className="text-sm font-medium">Name</Label>
+                    <Input
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Your name"
+                      className={`h-11 ${formErrors.name ? 'border-destructive' : 'border-muted-foreground/20'}`}
+                    />
+                    {formErrors.name && <p className="text-sm text-destructive">{formErrors.name}</p>}
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email" className="text-sm font-medium">Email</Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="Your email"
+                      className={`h-11 ${formErrors.email ? 'border-destructive' : 'border-muted-foreground/20'}`}
+                    />
+                    {formErrors.email && (
+                      <p className="text-sm text-destructive">{formErrors.email}</p>
+                    )}
+                  </div>
                 </div>
+
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="Your email"
-                    className={formErrors.email ? 'border-destructive' : ''}
-                  />
-                  {formErrors.email && (
-                    <p className="text-sm text-destructive">{formErrors.email}</p>
-                  )}
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="subject">Subject</Label>
+                  <Label htmlFor="subject" className="text-sm font-medium">Subject</Label>
                   <Input
                     id="subject"
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    placeholder="Subject of your message"
-                    className={formErrors.subject ? 'border-destructive' : ''}
+                    placeholder="What's this about?"
+                    className={`h-11 ${formErrors.subject ? 'border-destructive' : 'border-muted-foreground/20'}`}
                   />
                   {formErrors.subject && (
                     <p className="text-sm text-destructive">{formErrors.subject}</p>
                   )}
                 </div>
+
                 <div className="space-y-2">
-                  <Label htmlFor="message">Message</Label>
+                  <Label htmlFor="message" className="text-sm font-medium">Message</Label>
                   <Textarea
                     id="message"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    placeholder="Your message"
-                    className={`min-h-[120px] ${formErrors.message ? 'border-destructive' : ''}`}
+                    placeholder="Tell me more about your project or idea..."
+                    className={`min-h-[140px] resize-none ${formErrors.message ? 'border-destructive' : 'border-muted-foreground/20'}`}
                   />
                   {formErrors.message && (
                     <p className="text-sm text-destructive">{formErrors.message}</p>
                   )}
                 </div>
-                <Button type="submit" className="w-full" disabled={isSubmitting}>
+
+                <Button
+                  type="submit"
+                  className="w-full h-12 text-base font-semibold rounded-full hover:scale-105 transition-transform duration-200"
+                  disabled={isSubmitting}
+                >
                   {isSubmitting ? (
                     <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Sending...
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                      Sending Message...
                     </>
                   ) : (
-                    'Send Message'
+                    <>
+                      <Send className="mr-2 h-5 w-5" />
+                      Send Message
+                    </>
                   )}
                 </Button>
               </form>
@@ -238,68 +257,95 @@ export function ContactSection() {
           </Card>
         </motion.div>
 
+        {/* Contact Information */}
         <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="space-y-8"
+          initial={{ opacity: 0, x: 30 }}
+          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="space-y-6"
         >
-          <Card>
+          {/* Quick Contact */}
+          <Card className="border-0 bg-gradient-to-br from-primary/5 to-primary/10 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle>Contact Information</CardTitle>
-              <CardDescription>Alternative ways to reach out to me</CardDescription>
+              <CardTitle className="flex items-center gap-2">
+                <Mail className="w-5 h-5 text-primary" />
+                Quick Contact
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-start space-x-4">
-                <Mail className="h-5 w-5 mt-0.5 text-muted-foreground" />
-                <div>
-                  <h3 className="font-medium">Email</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    <Link href="mailto:thomassouca@gmail.com" className="hover:underline">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-background/50 hover:bg-background/80 transition-colors duration-200">
+                  <Mail className="w-4 h-4 text-primary" />
+                  <div>
+                    <p className="font-medium">Primary Email</p>
+                    <Link href="mailto:thomassouca@gmail.com" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">
                       thomassouca@gmail.com
                     </Link>
-                  </p>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    <Link href="mailto:thomas@souca.dev" className="hover:underline">
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-background/50 hover:bg-background/80 transition-colors duration-200">
+                  <Mail className="w-4 h-4 text-primary" />
+                  <div>
+                    <p className="font-medium">Business Email</p>
+                    <Link href="mailto:thomas@souca.dev" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">
                       thomas@souca.dev
                     </Link>
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <Github className="h-5 w-5 mt-0.5 text-muted-foreground" />
-                <div>
-                  <h3 className="font-medium">GitHub</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    <Link
-                      href="https://github.com/SoucaThomas"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:underline"
-                    >
-                      github.com/SoucaThomas
-                    </Link>
-                  </p>
+                  </div>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          {/* Social & Links */}
+          <Card className="border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle>Let's Connect</CardTitle>
-              <CardDescription>
-                I'm always open to discussing new projects, creative ideas, or opportunities to be
-                part of your vision.
-              </CardDescription>
+              <CardTitle className="flex items-center gap-2">
+                <Github className="w-5 h-5 text-primary" />
+                Connect & Collaborate
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-3">
+                <Link
+                  href="https://github.com/SoucaThomas"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-lg bg-background/50 hover:bg-background/80 transition-all duration-200 hover:scale-105"
+                >
+                  <Github className="w-4 h-4 text-primary" />
+                  <div>
+                    <p className="font-medium">GitHub</p>
+                    <p className="text-sm text-muted-foreground">View my projects & contributions</p>
+                  </div>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Availability Status */}
+          <Card className="border-0 bg-gradient-to-br from-green-500/10 to-green-500/5 backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-green-600 dark:text-green-400">
+                <Calendar className="w-5 h-5" />
+                Current Status
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
-                Whether you have a question about my work, want to discuss a potential
-                collaboration, or just want to say hello, I'll try my best to get back to you as
-                soon as possible.
-              </p>
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                  <span className="text-sm font-medium">Available for new opportunities</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
+                  <span className="text-sm font-medium">Open to remote work</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
+                  <span className="text-sm font-medium">Interested in collaborations</span>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </motion.div>

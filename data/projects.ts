@@ -36,7 +36,7 @@ const projectsData: Project[] = [
     description:
       'A multiplayer Sudoku game with real-time collaboration, built with Node.js, Next and Socket.io.',
     html_url: 'https://github.com/SoucaThomas/sudoku',
-    homepage: 'https://sudoku.souca.dev',
+    homepage: null,
     topics: ['node.js', 'express.js', 'next', 'mongodb', 'socket.io'],
     image: '/sudoku.png',
   },

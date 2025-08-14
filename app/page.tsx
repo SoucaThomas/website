@@ -83,36 +83,85 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <ScrollProgressBar />
       <Navbar sections={sections} activeSection={activeSection} scrollToSection={scrollToSection} />
-      <main>
-        <div ref={heroRef} id="hero">
+
+      <main className="relative" role="main">
+        {/* Hero Section with enhanced background */}
+        <section
+          ref={heroRef}
+          id="hero"
+          className="relative"
+          aria-label="Hero section - Introduction to Souca Thomas"
+        >
           <BackgroundBeamsWithCollision className="relative min-h-screen flex w-full flex-col justify-center items-center text-center pt-16 overflow-hidden bg-transparent">
             <HeroSection />
           </BackgroundBeamsWithCollision>
-        </div>
-        <div ref={aboutRef} id="about" className="relative">
+        </section>
+
+        {/* About Section with subtle pattern */}
+        <section
+          ref={aboutRef}
+          id="about"
+          className="relative"
+          aria-label="About Souca Thomas - Professional background and skills"
+        >
           <PatternBackground variant="subtle" />
           <AboutSection />
-        </div>
-        <div ref={projectsRef} id="projects">
+        </section>
+
+        {/* Projects Section - clean background */}
+        <section
+          ref={projectsRef}
+          id="projects"
+          className="relative"
+          aria-label="Projects - Showcase of work and open-source contributions"
+        >
           <ProjectsSection />
-        </div>
-        <div ref={experienceRef} id="experience" className="relative">
+        </section>
+
+        {/* Experience Section with dots pattern */}
+        <section
+          ref={experienceRef}
+          id="experience"
+          className="relative"
+          aria-label="Professional Experience - Career journey and achievements"
+        >
           <PatternBackground variant="dots" />
           <ExperienceSection />
-        </div>
-        <div ref={technologiesRef} id="technologies" className="relative">
+        </section>
+
+        {/* Technologies Section with subtle pattern */}
+        <section
+          ref={technologiesRef}
+          id="technologies"
+          className="relative"
+          aria-label="Technologies and Skills - Tools and frameworks expertise"
+        >
           <PatternBackground variant="subtle" />
           <TechnologiesSection />
-        </div>
-        <div ref={contactRef} id="contact" className="relative">
-          <PatternBackground variant="subtle" />
+        </section>
+
+        {/* Contact Section with clean background */}
+        <section
+          ref={contactRef}
+          id="contact"
+          className="relative"
+          aria-label="Contact - Get in touch for opportunities and collaboration"
+        >
           <ContactSection />
-        </div>
-        <div ref={resumeRef} id="resume" className="relative">
+        </section>
+
+        {/* Resume Section with dots pattern */}
+        <section
+          ref={resumeRef}
+          id="resume"
+          className="relative"
+          aria-label="Resume - Download professional experience and qualifications"
+        >
           <PatternBackground variant="dots" />
           <ResumeSection />
-        </div>
+        </section>
       </main>
+
       <Footer />
     </div>
   );
