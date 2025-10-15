@@ -8,21 +8,23 @@ import { PostHogProvider } from '@/components/PostHogProvider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Souca Thomas - Full-Stack Developer Portfolio',
-  description: 'Full-Stack Web Developer specializing in React, Next.js, Node.js, and modern web technologies. View my projects, experience, and get in touch for collaboration opportunities.',
+  title: 'Souca Thomas - Full-Stack Developer & Founding Engineer',
+  description:
+    'Full-Stack Developer and Founding Engineer specializing in React, React Native, NestJS, and AI-powered applications. Building innovative solutions at Wavelink and Krumb.',
   keywords: [
     'Full-Stack Developer',
+    'Founding Engineer',
     'React Developer',
-    'Next.js Developer',
-    'Node.js Developer',
-    'Web Developer',
-    'Frontend Developer',
-    'Backend Developer',
+    'React Native Developer',
+    'NestJS Developer',
+    'AI Developer',
+    'Mobile Developer',
     'TypeScript Developer',
     'Portfolio',
     'Romania',
     'Web Development',
-    'Software Development'
+    'Mobile Development',
+    'AI Integration',
   ],
   authors: [{ name: 'Souca Thomas' }],
   creator: 'Souca Thomas',
@@ -32,8 +34,9 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://souca.dev',
-    title: 'Souca Thomas - Full-Stack Developer Portfolio',
-    description: 'Full-Stack Web Developer specializing in React, Next.js, Node.js, and modern web technologies.',
+    title: 'Souca Thomas - Full-Stack Developer & Founding Engineer',
+    description:
+      'Full-Stack Developer and Founding Engineer specializing in React, React Native, NestJS, and AI-powered applications.',
     siteName: 'Souca Thomas Portfolio',
     images: [
       {
@@ -46,8 +49,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Souca Thomas - Full-Stack Developer Portfolio',
-    description: 'Full-Stack Web Developer specializing in React, Next.js, Node.js, and modern web technologies.',
+    title: 'Souca Thomas - Full-Stack Developer & Founding Engineer',
+    description:
+      'Full-Stack Developer and Founding Engineer specializing in React, React Native, NestJS, and AI-powered applications.',
     images: ['/memoji.png'],
   },
   alternates: {
@@ -60,11 +64,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -78,47 +78,45 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              "name": "Souca Thomas",
-              "jobTitle": "Full-Stack Developer",
-              "description": "Full-Stack Web Developer specializing in React, Next.js, Node.js, and modern web technologies",
-              "url": "https://souca.dev",
-              "image": "https://souca.dev/memoji.png",
-              "sameAs": [
-                "https://github.com/SoucaThomas"
+              '@context': 'https://schema.org',
+              '@type': 'Person',
+              name: 'Souca Thomas',
+              jobTitle: 'Full-Stack Developer & Founding Engineer',
+              description:
+                'Full-Stack Developer and Founding Engineer specializing in React, React Native, NestJS, and AI-powered applications',
+              url: 'https://souca.dev',
+              image: 'https://souca.dev/memoji.png',
+              sameAs: ['https://github.com/SoucaThomas'],
+              knowsAbout: [
+                'React',
+                'React Native',
+                'NestJS',
+                'TypeScript',
+                'JavaScript',
+                'AI Integration',
+                'Mobile Development',
+                'Full-Stack Development',
               ],
-              "knowsAbout": [
-                "React",
-                "Next.js",
-                "Node.js",
-                "TypeScript",
-                "JavaScript",
-                "Web Development",
-                "Full-Stack Development"
-              ],
-              "worksFor": {
-                "@type": "Organization",
-                "name": "Freelance"
+              worksFor: {
+                '@type': 'Organization',
+                name: 'Wavelink',
               },
-              "address": {
-                "@type": "PostalAddress",
-                "addressCountry": "Romania"
-              }
-            })
+              address: {
+                '@type': 'PostalAddress',
+                addressCountry: 'Romania',
+              },
+            }),
           }}
         />
       </head>
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="dark"
+          enableSystem={false}
           disableTransitionOnChange
         >
-          <PostHogProvider>
-            {children}
-          </PostHogProvider>
+          <PostHogProvider>{children}</PostHogProvider>
         </ThemeProvider>
       </body>
     </html>

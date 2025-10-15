@@ -6,7 +6,6 @@ import { cn } from '@/lib/utils';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
-import { ThemeToggle } from '@/components/theme-toggle';
 
 interface NavbarProps {
   sections: { id: string; label: string }[];
@@ -61,13 +60,9 @@ export function Navbar({ sections, activeSection, scrollToSection }: NavbarProps
               )}
             </button>
           ))}
-          <div className="ml-2">
-            <ThemeToggle />
-          </div>
         </nav>
 
         <div className="flex items-center gap-2 md:hidden">
-          <ThemeToggle />
           {/* Mobile Menu Button */}
           <Button
             variant="ghost"
