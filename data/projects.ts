@@ -3,6 +3,16 @@ import type { Project } from '@/lib/github';
 const projectsData: Project[] = [
   {
     id: 1,
+    name: 'Krumb - AI Cooking App',
+    description:
+      'A social cooking app where users share short recipe videos, and the app automatically generates step-by-step instructions using AI. Built with React Native, NestJS, and Prisma.',
+    homepage: 'https://krumb.app',
+    html_url: '',
+    topics: ['react-native', 'expo', 'nestjs', 'prisma', 'ai', 'mobile'],
+    image: '/krumb.png',
+  },
+  {
+    id: 2,
     name: 'Next.js Portfolio',
     description:
       'A portfolio website showcasing personal projects, built with Next.js and Tailwind CSS.',
@@ -12,7 +22,7 @@ const projectsData: Project[] = [
     image: '/portfolio.png',
   },
   {
-    id: 2,
+    id: 3,
     name: 'Wish',
     description:
       'A MVP built for a samsung competition, allowing users to create short stories for their kids with learning disabilities using ai.',
@@ -22,7 +32,7 @@ const projectsData: Project[] = [
     image: '/wish.png',
   },
   {
-    id: 3,
+    id: 4,
     name: 'Spotify Poster Generator',
     description: 'A web app that generates Spotify posters using the Spotify API and Next.js.',
     html_url: 'https://github.com/SoucaThomas/Spotify-Poster-generator',
@@ -31,7 +41,7 @@ const projectsData: Project[] = [
     image: '/album.png',
   },
   {
-    id: 4,
+    id: 5,
     name: 'Sudoku Online',
     description:
       'A multiplayer Sudoku game with real-time collaboration, built with Node.js, Next and Socket.io.',
@@ -41,7 +51,7 @@ const projectsData: Project[] = [
     image: '/sudoku.png',
   },
   {
-    id: 5,
+    id: 6,
     name: 'Car Marketplace',
     description:
       'A comprehensive car marketplace platform with product management, favorites, and admin features.',
@@ -51,7 +61,7 @@ const projectsData: Project[] = [
     image: '/car-market.png',
   },
   {
-    id: 6,
+    id: 7,
     name: 'AI Math Notes',
     description: 'A notes app with math equation evaluation capabilities, inspired by Apple Notes.',
     html_url: 'https://github.com/SoucaThomas/ai-mathnotes',

@@ -12,15 +12,15 @@ export function AboutSection() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   const stats = [
-    { icon: Code, label: 'Years Experience', value: '3+' },
-    { icon: Users, label: 'Projects Completed', value: '20+' },
-    { icon: Star, label: 'Technologies', value: '15+' },
+    { icon: Code, label: 'Years Experience', value: '2+' },
+    { icon: Users, label: 'Projects Completed', value: '15+' },
+    { icon: Star, label: 'Technologies', value: '20+' },
   ];
 
   const skills = [
-    'Full-Stack Development', 'React & Next.js', 'Node.js & Express',
-    'TypeScript', 'Database Design', 'API Development', 'UI/UX Design',
-    'DevOps & Deployment', 'Testing & Quality', 'Performance Optimization'
+    'Full-Stack Development', 'React & React Native', 'Next.js & NestJS',
+    'TypeScript & JavaScript', 'Node.js & Express', 'Prisma & PostgreSQL',
+    'Mobile Development', 'AI Integration', 'API Development', 'Database Design'
   ];
 
   return (
@@ -48,15 +48,15 @@ export function AboutSection() {
           >
             <div className="space-y-6">
               <p className="text-lg leading-relaxed text-muted-foreground">
-                I'm Souca Thomas, a full-stack developer with expertise in building modern, responsive
-                web applications. I focus on clean architecture, seamless user experiences, and creating
-                solutions that are both functional and visually appealing.
+                I'm Souca Thomas, a full-stack developer and founding engineer with expertise in building 
+                modern web and mobile applications. I specialize in React, React Native, and AI-powered 
+                solutions, currently working on innovative projects that combine technology with real-world impact.
               </p>
 
               <p className="text-lg leading-relaxed text-muted-foreground">
-                With a passion for innovation and a keen eye for detail, I specialize in creating
-                scalable applications that solve real-world problems. My approach combines technical
-                excellence with creative problem-solving.
+                As a founding engineer at Wavelink and founder of Krumb, I've built applications that 
+                generate real revenue and serve hundreds of users. My passion lies in creating scalable 
+                solutions that solve complex problems through clean code and innovative thinking.
               </p>
             </div>
 

@@ -135,8 +135,8 @@ export function HeroSection() {
           variants={item}
           className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
         >
-          I&apos;m a Full-Stack Web Developer from <span className="text-foreground font-semibold">Romania</span>,
-          focused on creating user-friendly and efficient web applications.
+          I&apos;m a Full-Stack Developer and Founding Engineer from <span className="text-foreground font-semibold">Romania</span>,
+          building innovative web and mobile applications with AI integration.
         </motion.p>
 
         <motion.div variants={item} className="flex flex-col sm:flex-row gap-4 justify-center items-center">
