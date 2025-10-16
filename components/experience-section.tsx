@@ -1,7 +1,6 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import { useRef, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Section } from '@/components/section';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -45,8 +44,8 @@ export function ExperienceSection() {
           {isLoading
             ? Array.from({ length: 3 }).map((_, index) => <ExperienceCardSkeleton key={index} />)
             : experiences.map((experience, index) => (
-              <ExperienceCard key={index} experience={experience} index={index} />
-            ))}
+                <ExperienceCard key={index} experience={experience} index={index} />
+              ))}
         </div>
       </div>
     </Section>
@@ -54,18 +53,10 @@ export function ExperienceSection() {
 }
 
 function ExperienceCard({ experience, index }: { experience: Experience; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
-  const isInView = useInView(ref, { once: true, amount: isMobile ? 0.02 : 0.2 });
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, x: isMobile ? 0 : (index % 2 === 0 ? -50 : 50) }}
-      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: isMobile ? 0 : (index % 2 === 0 ? -50 : 50) }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="relative"
-    >
+    <div className="relative">
       {/* Timeline dot */}
       <div className="absolute left-8 top-6 w-4 h-4 bg-primary rounded-full border-4 border-background shadow-lg hidden md:block" />
 
@@ -97,9 +88,7 @@ function ExperienceCard({ experience, index }: { experience: Experience; index: 
           </CardHeader>
 
           <CardContent className="space-y-6">
-            <p className="text-muted-foreground leading-relaxed">
-              {experience.description}
-            </p>
+            <p className="text-muted-foreground leading-relaxed">{experience.description}</p>
 
             <div className="space-y-4">
               <div>
@@ -138,7 +127,7 @@ function ExperienceCard({ experience, index }: { experience: Experience; index: 
           </CardContent>
         </Card>
       </div>
-    </motion.div>
+    </div>
   );
 }
 

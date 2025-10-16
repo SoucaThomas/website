@@ -1,8 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
 import { Section } from '@/components/section';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -38,7 +36,8 @@ export function ProjectsSection() {
       <div className="text-center mb-16">
         <h2 className="section-title">Featured Projects</h2>
         <p className="section-subtitle max-w-3xl mx-auto">
-          A showcase of my work and open-source contributions that demonstrate my skills and creativity
+          A showcase of my work and open-source contributions that demonstrate my skills and
+          creativity
         </p>
       </div>
 
@@ -50,46 +49,30 @@ export function ProjectsSection() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+          {projects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
           ))}
         </div>
       )}
 
-      <motion.div
-        className="text-center mt-16"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.8 }}
-      >
-        <p className="text-muted-foreground mb-6">
-          Want to see more of my work?
-        </p>
+      <div className="text-center mt-16">
+        <p className="text-muted-foreground mb-6">Want to see more of my work?</p>
         <Button asChild variant="outline" size="lg" className="rounded-full px-8">
           <Link href="https://github.com/soucathomas" target="_blank" rel="noopener noreferrer">
             <Github className="mr-2 h-5 w-5" />
             View All Projects
           </Link>
         </Button>
-      </motion.div>
+      </div>
     </Section>
   );
 }
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
+function ProjectCard({ project }: { project: Project }) {
   const isMobile = useIsMobile();
-  const isInView = useInView(ref, { once: true, amount: isMobile ? 0 : 0.2 });
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      whileHover={{ y: -8 }}
-      className="group"
-    >
+    <div className="group">
       <Card className="overflow-hidden h-full flex flex-col hover:shadow-2xl transition-all duration-500 border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm">
         <div className="relative aspect-video overflow-hidden">
           <Image
@@ -172,7 +155,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           </Button>
         </CardFooter>
       </Card>
-    </motion.div>
+    </div>
   );
 }
 

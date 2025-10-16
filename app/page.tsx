@@ -11,7 +11,6 @@ import { ContactSection } from '@/components/contact-section';
 import { ResumeSection } from '@/components/resume-section';
 import { Footer } from '@/components/footer';
 import { PatternBackground } from '@/components/pattern-background';
-import { ScrollProgressBar } from '@/components/scroll-progress-bar';
 import { BackgroundBeamsWithCollision } from '@/components/ui/background-beams-with-collision';
 
 export default function Home() {
@@ -81,7 +80,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      <ScrollProgressBar />
       <Navbar sections={sections} activeSection={activeSection} scrollToSection={scrollToSection} />
 
       <main className="relative" role="main">
