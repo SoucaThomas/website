@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 interface LogoProps {
@@ -15,19 +14,10 @@ export function Logo({ size = 'medium' }: LogoProps) {
   };
 
   return (
-    <motion.div
-      className={cn('relative flex items-center justify-center rounded-md  font-bold', sizes[size])}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+    <div
+      className={cn('relative flex items-center justify-center rounded-md font-bold', sizes[size])}
     >
-      <motion.img
-        src="/memoji.png"
-        alt="Logo"
-        className="h-full w-full object-contain"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-      />
-    </motion.div>
+      <img src="/memoji.png" alt="Logo" className="h-full w-full object-contain" />
+    </div>
   );
 }

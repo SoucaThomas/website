@@ -1,7 +1,5 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
 import { Section } from '@/components/section';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -86,78 +84,41 @@ export function TechnologiesSection() {
         </p>
 
         <div className="mt-16 space-y-12">
-          {technologyCategories.map((category, categoryIndex) => (
-            <TechnologyCategory key={category.name} category={category} index={categoryIndex} />
+          {technologyCategories.map((category) => (
+            <TechnologyCategory key={category.name} category={category} />
           ))}
         </div>
 
         <div className="mt-16 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <p className="text-muted-foreground mb-4">Always learning and expanding my skill set</p>
-            <div className="flex flex-wrap justify-center gap-2">
-              <Badge variant="outline" className="px-3 py-1">
-                Continuous Learning
-              </Badge>
-              <Badge variant="outline" className="px-3 py-1">
-                Industry Best Practices
-              </Badge>
-              <Badge variant="outline" className="px-3 py-1">
-                Performance Focus
-              </Badge>
-            </div>
-          </motion.div>
+          <p className="text-muted-foreground mb-4">Always learning and expanding my skill set</p>
+          <div className="flex flex-wrap justify-center gap-2">
+            <Badge variant="outline" className="px-3 py-1">
+              Continuous Learning
+            </Badge>
+            <Badge variant="outline" className="px-3 py-1">
+              Industry Best Practices
+            </Badge>
+            <Badge variant="outline" className="px-3 py-1">
+              Performance Focus
+            </Badge>
+          </div>
         </div>
       </div>
     </Section>
   );
 }
 
-function TechnologyCategory({ category, index }: { category: any; index: number }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, { once: true, amount: 0.2 });
-
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: index * 0.2,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  };
-
+function TechnologyCategory({ category }: { category: any }) {
   return (
-    <motion.div
-      ref={containerRef}
-      variants={container}
-      initial="hidden"
-      animate={isInView ? 'show' : 'hidden'}
-      className="space-y-6"
-    >
-      <motion.h3 variants={item} className="text-2xl font-semibold text-center text-foreground">
-        {category.name}
-      </motion.h3>
+    <div className="space-y-6">
+      <h3 className="text-2xl font-semibold text-center text-foreground">{category.name}</h3>
 
-      <motion.div
-        variants={container}
-        className="flex flex-wrap min-w-full gap-20 justify-center items-center"
-      >
+      <div className="flex flex-wrap min-w-full gap-20 justify-center items-center">
         {category.technologies.map((tech: any) => (
           <TechnologyCard key={tech.name} technology={tech} />
         ))}
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
 
@@ -165,7 +126,7 @@ function TechnologyCard({ technology }: { technology: { name: string; icon: any 
   // Handle technologies without icons
   if (!technology.icon) {
     return (
-      <motion.div whileHover={{ y: -8, scale: 1.02 }} transition={{ duration: 0.2 }}>
+      <div className="hover:scale-105 transition-transform duration-200">
         <Card className="h-full hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm group">
           <CardContent className="flex flex-col items-center justify-center p-6 space-y-4 text-center">
             <div className="w-16 h-16 bg-muted/20 rounded-full flex items-center justify-center">
@@ -181,14 +142,14 @@ function TechnologyCard({ technology }: { technology: { name: string; icon: any 
             </div>
           </CardContent>
         </Card>
-      </motion.div>
+      </div>
     );
   }
 
   const IconComponent = technology.icon;
 
   return (
-    <motion.div whileHover={{ y: -8, scale: 1.02 }} transition={{ duration: 0.2 }}>
+    <div className="hover:scale-105 transition-transform duration-200">
       <Card className="h-full hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm group">
         <CardContent className="flex flex-col items-center justify-center p-6 space-y-4 text-center">
           <div className="relative w-16 h-16 group-hover:scale-110 transition-transform duration-300">
@@ -202,6 +163,6 @@ function TechnologyCard({ technology }: { technology: { name: string; icon: any 
           </div>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   );
 }

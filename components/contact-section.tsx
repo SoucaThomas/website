@@ -2,7 +2,6 @@
 
 import type React from 'react';
 import { useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
 import { Section } from '@/components/section';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -40,7 +39,6 @@ export function ContactSection() {
   });
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const formRef = useRef<HTMLFormElement>(null);
-  const isInView = useInView(formRef, { once: true, amount: 0.2 });
 
   // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -151,18 +149,14 @@ export function ContactSection() {
       <div className="text-center mb-16">
         <h2 className="section-title">Let's Connect</h2>
         <p className="section-subtitle max-w-3xl mx-auto">
-          Ready to start a conversation? I'm always open to discussing new projects,
-          creative ideas, or opportunities to be part of your vision.
+          Ready to start a conversation? I'm always open to discussing new projects, creative ideas,
+          or opportunities to be part of your vision.
         </p>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-12 mt-12">
         {/* Contact Form */}
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-          transition={{ duration: 0.6 }}
-        >
+        <div>
           <Card className="border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm shadow-xl">
             <CardHeader className="text-center pb-6">
               <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
@@ -177,19 +171,27 @@ export function ContactSection() {
               <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name" className="text-sm font-medium">Name</Label>
+                    <Label htmlFor="name" className="text-sm font-medium">
+                      Name
+                    </Label>
                     <Input
                       id="name"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
                       placeholder="Your name"
-                      className={`h-11 ${formErrors.name ? 'border-destructive' : 'border-muted-foreground/20'}`}
+                      className={`h-11 ${
+                        formErrors.name ? 'border-destructive' : 'border-muted-foreground/20'
+                      }`}
                     />
-                    {formErrors.name && <p className="text-sm text-destructive">{formErrors.name}</p>}
+                    {formErrors.name && (
+                      <p className="text-sm text-destructive">{formErrors.name}</p>
+                    )}
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email" className="text-sm font-medium">Email</Label>
+                    <Label htmlFor="email" className="text-sm font-medium">
+                      Email
+                    </Label>
                     <Input
                       id="email"
                       name="email"
@@ -197,7 +199,9 @@ export function ContactSection() {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="Your email"
-                      className={`h-11 ${formErrors.email ? 'border-destructive' : 'border-muted-foreground/20'}`}
+                      className={`h-11 ${
+                        formErrors.email ? 'border-destructive' : 'border-muted-foreground/20'
+                      }`}
                     />
                     {formErrors.email && (
                       <p className="text-sm text-destructive">{formErrors.email}</p>
@@ -206,14 +210,18 @@ export function ContactSection() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="subject" className="text-sm font-medium">Subject</Label>
+                  <Label htmlFor="subject" className="text-sm font-medium">
+                    Subject
+                  </Label>
                   <Input
                     id="subject"
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
                     placeholder="What's this about?"
-                    className={`h-11 ${formErrors.subject ? 'border-destructive' : 'border-muted-foreground/20'}`}
+                    className={`h-11 ${
+                      formErrors.subject ? 'border-destructive' : 'border-muted-foreground/20'
+                    }`}
                   />
                   {formErrors.subject && (
                     <p className="text-sm text-destructive">{formErrors.subject}</p>
@@ -221,14 +229,18 @@ export function ContactSection() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="message" className="text-sm font-medium">Message</Label>
+                  <Label htmlFor="message" className="text-sm font-medium">
+                    Message
+                  </Label>
                   <Textarea
                     id="message"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
                     placeholder="Tell me more about your project or idea..."
-                    className={`min-h-[140px] resize-none ${formErrors.message ? 'border-destructive' : 'border-muted-foreground/20'}`}
+                    className={`min-h-[140px] resize-none ${
+                      formErrors.message ? 'border-destructive' : 'border-muted-foreground/20'
+                    }`}
                   />
                   {formErrors.message && (
                     <p className="text-sm text-destructive">{formErrors.message}</p>
@@ -255,15 +267,10 @@ export function ContactSection() {
               </form>
             </CardContent>
           </Card>
-        </motion.div>
+        </div>
 
         {/* Contact Information */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="space-y-6"
-        >
+        <div className="space-y-6">
           {/* Quick Contact */}
           <Card className="border-0 bg-gradient-to-br from-primary/5 to-primary/10 backdrop-blur-sm">
             <CardHeader>
@@ -278,7 +285,10 @@ export function ContactSection() {
                   <Mail className="w-4 h-4 text-primary" />
                   <div>
                     <p className="font-medium">Primary Email</p>
-                    <Link href="mailto:thomassouca@gmail.com" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">
+                    <Link
+                      href="mailto:thomassouca@gmail.com"
+                      className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200"
+                    >
                       thomassouca@gmail.com
                     </Link>
                   </div>
@@ -288,7 +298,10 @@ export function ContactSection() {
                   <Mail className="w-4 h-4 text-primary" />
                   <div>
                     <p className="font-medium">Business Email</p>
-                    <Link href="mailto:thomas@souca.dev" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">
+                    <Link
+                      href="mailto:thomas@souca.dev"
+                      className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200"
+                    >
                       thomas@souca.dev
                     </Link>
                   </div>
@@ -316,7 +329,9 @@ export function ContactSection() {
                   <Github className="w-4 h-4 text-primary" />
                   <div>
                     <p className="font-medium">GitHub</p>
-                    <p className="text-sm text-muted-foreground">View my projects & contributions</p>
+                    <p className="text-sm text-muted-foreground">
+                      View my projects & contributions
+                    </p>
                   </div>
                 </Link>
               </div>
@@ -348,7 +363,7 @@ export function ContactSection() {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </div>
       </div>
     </Section>
   );
