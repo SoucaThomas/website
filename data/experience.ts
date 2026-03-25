@@ -2,25 +2,25 @@ import type { Experience } from '@/lib/data';
 
 const experienceData: Experience[] = [
   {
-    title: 'Founder & Developer',
-    company: 'Krumb - Personal Project',
+    title: 'Co-Founder & CTO',
+    company: 'TSC',
     period: '2025 – Present',
     description:
-      'Building a social cooking app where users share short recipe videos, and the app automatically generates step-by-step instructions using AI.',
+      'Co-founded a technology company building marketplace products and consumer apps. Leading all technical decisions, architecture, and development across multiple products including Krumb, a handyman marketplace, and upcoming puzzle games.',
     responsibilities: [
-      'Designed the full product experience using React Native (Expo) and Node.js, with a NestJS backend and Prisma for database management',
-      'Implemented user authentication, video upload pipeline, and AI-based step extraction',
-      'Reached 200+ early user sign-ups prior to launch',
-      'Preparing for public beta release in late 2025',
+      'Architecting and building the TSC Marketplace — a two-sided platform connecting handymen with customers through a gig-based bidding system',
+      'Leading development of Krumb, an AI-powered recipe app currently in beta testing with 200+ early sign-ups',
+      'Designing the technical roadmap for upcoming puzzle game products',
+      'Making all technology choices: TanStack Start, NestJS, Swift, Flutter, PostgreSQL',
     ],
     technologies: [
-      'React Native',
-      'Expo',
-      'Node.js',
+      'TanStack Start',
+      'Swift',
+      'Flutter',
       'NestJS',
-      'Prisma',
       'TypeScript',
       'PostgreSQL',
+      'Prisma',
     ],
   },
   {
@@ -33,7 +33,7 @@ const experienceData: Experience[] = [
       'Developed and maintained the full-stack application using ReactJS and NestJS (migrated backend from Go to NestJS)',
       'Designed and implemented a new feature that generated $1K USD MRR, significantly improving revenue growth',
       'Collaborated with product and design teams to refine user experience and improve mobile performance',
-      "Currently leading a major upgrade that will power ~30% of the app's core functionality",
+      "Led a major upgrade that powers ~30% of the app's core functionality",
       'Improved system performance and reliability through efficient API design and front-end optimizations',
     ],
     technologies: ['ReactJS', 'NestJS', 'TypeScript', 'PostgreSQL', 'Docker', 'AWS', 'REST APIs'],

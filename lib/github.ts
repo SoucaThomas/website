@@ -2,10 +2,15 @@ export interface Project {
   id: number;
   name: string;
   description: string | null;
+  longDescription?: string;
+  role?: string;
+  status?: string;
+  highlights?: string[];
   html_url: string;
   homepage: string | null;
   topics: string[];
   image?: string;
+  featured?: boolean;
 }
 
 // This function is kept for backward compatibility
