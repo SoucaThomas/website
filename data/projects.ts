@@ -62,6 +62,27 @@ const projectsData: Project[] = [
     featured: true,
   },
   {
+    id: 10,
+    name: 'UAV Flight Controller',
+    description:
+      'A custom flight controller for a 1.2m MQ-9 Reaper RC plane — bare metal STM32 with FreeRTOS, custom drivers, custom radio protocol, and a ground station app.',
+    longDescription:
+      'Building a flight controller from scratch for a 1.2m MQ-9 Reaper RC plane. No ArduPilot, no Betaflight — bare metal STM32 with FreeRTOS, custom drivers, custom radio protocol, and a ground station app. Currently in development with a blog series documenting the build.',
+    role: 'Solo Builder',
+    status: 'In Development',
+    highlights: [
+      'Bare metal STM32 drivers (SPI, I2C, UART, PWM) — no HAL, no vendor libraries',
+      'FreeRTOS-based firmware with sensor fusion (complementary filter, 100Hz)',
+      'NRF24L01 radio link with custom 32-byte packet protocol and CRC-16',
+      '9-state flight state machine with two-stage failsafe (38 unit tests)',
+      'Ground station app (React + TypeScript) with live map, PS5 controller input, and OpenAIP airspace overlay',
+    ],
+    html_url: 'https://github.com/SoucaThomas/uav-freertos',
+    homepage: null,
+    topics: ['C++', 'STM32', 'FreeRTOS', 'Embedded', 'React', 'TypeScript'],
+    featured: true,
+  },
+  {
     id: 4,
     name: 'Wish',
     description:
