@@ -1,0 +1,72 @@
+---
+title: "Part 5: Ground Station App"
+date: "2026-05-10"
+description: "Building a React ground station with PS5 controller input, live maps, and OpenAIP airspace overlay."
+tags: ["react", "typescript", "ground-station", "maps"]
+part: 5
+---
+
+# Building the Ground Station App
+
+Part 5. This is the one where I get to use my actual day-to-day skills instead of fighting with registers and oscilloscopes.
+
+The flight controller firmware is mostly done: sensors work, motor spins, state machine is tested. But a flight controller without a ground station is just a very expensive brick. You need something to show you what the plane is doing, send it commands, and let you control it.
+
+## The tech stack
+
+I went with what I know: **React + TypeScript + Vite**. For the UI components I used shadcn/ui because I didn't want to spend time styling buttons. Tailwind CSS v4 for everything else. The plan is to eventually wrap it in **Tauri** for a native desktop app, but for now it runs in the browser.
+
+The map was important. I need to see where the plane is. I used **MapLibre GL** (open source, no API key needed for the base map) with mapcn, which is basically shadcn but for maps. Dark Carto tiles as the default basemap because it looks clean and the plane marker stands out on a dark background.
+
+## PS5 controller input
+
+The browser has a **Gamepad API**. You call `navigator.getGamepads()` in a `requestAnimationFrame` loop and it gives you stick positions, button states, and trigger values. No plugins, no drivers, no native code. It just works.
+
+I added a **dead zone (8%)** to the sticks so they don't drift when centered. The mapping is:
+
+- Left stick Y → throttle
+- Left stick X → yaw
+- Right stick X → roll
+- Right stick Y → pitch
+
+These will eventually be sent as commands over serial to the ground station MCU, which forwards them over NRF to the plane. For now they drive a simulated plane on the map.
+
+## Airspace overlay
+
+This is the feature I'm most proud of. I integrated OpenAIP's tile API to overlay airspace zones on the map. When you click the "Airspace" button, you can see controlled airspace, restricted zones, and training areas drawn on the map.
+
+I'm near **Cluj-Napoca airport**, so the CTR (Control Zone) shows up clearly around the airport. Flying inside a CTR without permission is illegal and potentially dangerous, so being able to see it on the map before and during flight is important.
+
+Getting the API working had two issues:
+
+1. **Wrong coordinate order.** The OpenAIP API expects lat,lng but MapLibre uses lng,lat. I spent a while wondering why my airspace query was returning data from Saudi Arabia instead of Romania. Swapping the coordinates fixed it.
+
+2. **Wrong endpoint.** The tile URL in old documentation says `/api/data/airspaces/{z}/{x}/{y}.png`. The current API uses `/api/data/openaip/{z}/{x}/{y}.png`. Took some digging through their OpenAPI schema to find this.
+
+I also added an airspace status indicator in the telemetry panel that queries the OpenAIP API for nearby airspaces and shows them with color coding: green for clear, amber for controlled (CTR, TMA), red for restricted or prohibited. It shows the top 3 most relevant airspaces with their name, ICAO class, and altitude limits.
+
+The airspace overlay opacity is configurable in the settings panel because the default tile colors clash with the dark map.
+
+## The UI layout
+
+Everything floats over the map. The map is the full-screen background, and panels are positioned on top:
+
+- **Top bar** - app name, toggle buttons for each panel, controller status, simulate/airspace buttons
+- **Left panel** - packet log showing TX/RX packets (mock data for now)
+- **Right panel** - telemetry data (state, battery, distance, pitch, roll, radio link)
+- **Bottom right** - attitude indicator + stick displays + throttle bar
+- **Center** - settings panel (map style, airspace opacity)
+
+All panels can be toggled on and off with buttons in the header. There are 7 map styles to choose from: dark, light, voyager, and OSM variants.
+
+## What's next
+
+The app is ready for the ground station side. The missing piece is the serial connection. The app needs to talk to the ground station MCU over USB serial, and the MCU needs to forward commands to the plane over NRF radio.
+
+That's the next chapter: getting two NRF modules talking to each other and bridging the gap between the browser and the aircraft.
+
+But first I need to buy a second Blackpill board and another NRF module. Hopefully this one won't have a broken channel register.
+
+---
+
+*Code: [GitHub](https://github.com/SoucaThomas/UAV-FreeRTOS).*

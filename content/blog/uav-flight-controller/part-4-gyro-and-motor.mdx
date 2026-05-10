@@ -1,0 +1,121 @@
+---
+title: "Part 4: Gyro and Motor Control"
+date: "2026-05-08"
+description: "MPU6500 sensor fusion with a complementary filter, ESC calibration, and the 9-state flight state machine."
+tags: ["embedded", "imu", "sensor-fusion", "state-machine"]
+part: 4
+---
+
+# Reading a Gyroscope and Spinning a Motor
+
+Part 4 of building a flight controller from scratch. The sensors and actuators, the two halves of a flight controller.
+
+## The gyro that wasn't what it said it was
+
+I bought an MPU6050 module. At least that's what the listing said. When I wrote the I2C driver and read the WHO_AM_I register (address 0x75), I expected to get back 0x68. I got 0x70.
+
+After a quick search, it's an MPU6500. Newer chip, same pinout, same register layout for the basic stuff. WHO_AM_I is just different. The MPU6500 is actually a better chip (lower noise, better temperature stability), so this was a happy surprise for once.
+
+## Getting sensor data
+
+The MPU6050/6500 gives you six values: acceleration on three axes (X, Y, Z) and rotation rate on three axes (X, Y, Z). Each value is a 16-bit signed integer split across two registers (high byte and low byte).
+
+Wiring is simple, 4 wires (well, 5):
+- VCC to 3.3V
+- GND to GND
+- SCL to PB6
+- SDA to PB7
+- AD0 to GND (sets the I2C address to 0x68)
+
+The first thing you have to do after powering the chip is wake it up. It starts in sleep mode. Write 0x00 to the PWR_MGMT_1 register and it wakes up and starts sampling.
+
+Then you configure the sensitivity ranges. I chose ±4g for the accelerometer (8192 LSB per g) and ±500 deg/s for the gyroscope (65.5 LSB per deg/s). These are good middle-ground settings for a plane. Enough range for maneuvers without sacrificing too much precision.
+
+I also enabled the **digital low-pass filter** at 44Hz bandwidth. Without this, the raw data is very noisy. You can see vibrations from the table, from touching the breadboard, from everything. The DLPF smooths it out.
+
+The raw numbers from the sensor are meaningless on their own. 15500 on the Z accelerometer. What does that mean? You have to convert to physical units. For the accelerometer, divide by **8192** to get g's. For the gyro, divide by **65.5** to get degrees per second. I use floats for this because the STM32F411 has a hardware FPU and there's no reason not to.
+
+## Calibration
+
+When the sensor is sitting perfectly still and flat, the accelerometer should read (0, 0, 1g) and the gyro should read (0, 0, 0). In practice, there's always a small offset. My gyro reads about (-370, 90, -330) when still. These offsets are unique to each chip.
+
+Calibration is simple: take 500 readings while the board is still, average them, and subtract that average from all future readings. For the accelerometer Z axis, you subtract (average - 8192) so you don't calibrate away gravity.
+
+After calibration, the gyro reads close to zero when still and the accel reads close to (0, 0, 1g). Good enough for flight.
+
+## Sensor fusion
+
+Here's the interesting part. You have two sensors that measure related things:
+
+The **accelerometer** can tell you which way is down (gravity). From that you can calculate the board's pitch and roll angle. But it's noisy, and it also measures any linear acceleration (like when the plane turns), so it's unreliable during flight.
+
+The **gyroscope** tells you how fast the board is rotating. If you integrate that over time (multiply rate by time step and add to angle), you get the current angle. This is very smooth and responsive. But it drifts. Small errors accumulate, and after a few minutes the angle is completely wrong.
+
+The **complementary filter** combines both: trust the gyro for short-term changes (it's smooth and fast), but slowly correct it with the accelerometer (which doesn't drift). The formula is:
+
+```r
+pitch = 0.98 * (pitch + gyro_x * dt) + 0.02 * atan2(accel_x, accel_z)
+```
+
+98% gyro, 2% accel. The filter runs at 100Hz (10ms loop). When the board is sitting still, pitch and roll hold steady at about 0.05 degrees. When I tilt it, the response is instant. When I hold it at an angle, it settles accurately. When I rotate it and stop, there's no drift because the accel slowly pulls the angle back to the correct value.
+
+I was genuinely surprised how well this works for such a simple algorithm. There are fancier options (Kalman filter, Madgwick filter) but the complementary filter is like 5 lines of math and it's good enough for stabilization.
+
+## The ESC saga
+
+The other half of a flight controller is making things move. The ESC (Electronic Speed Controller) takes a PWM signal and drives the brushless motor. The signal format is the same as servos: 50Hz, with a pulse width between 1000µs (off) and 2000µs (full throttle).
+
+I wrote a PWM driver using the STM32's **hardware timers**. Timer 2 and Timer 3 each have 4 channels, giving me up to 8 PWM outputs. Set the prescaler so the timer counts at **1MHz** (1µs per tick), set the period to 20,000 ticks (20ms = 50Hz), and set the compare register to the pulse width you want. The hardware handles the rest. No CPU involvement needed.
+
+The driver worked immediately. I could see the correct voltage on the multimeter varying as I changed the pulse width. Time to connect the ESC.
+
+### No beep
+
+Plugged in the ESC. Nothing. No beep, no sound, nothing.
+
+Turns out the ESC beeps through the motor coils. No motor connected = no sound. I felt stupid.
+
+### Motor connected, still wrong beeps
+
+Connected the motor (twisted bare wires together and wrapped in electrical tape, very professional). Now I got beeps:
+
+- Three beeps: power-on confirmation
+- Four beeps: detected 4S battery
+- Then repeating beeps forever: "I don't like your throttle signal"
+
+The Hobbywing Skywalker ESC expects the throttle to be at minimum when you plug in the battery. My code was ramping the throttle immediately during startup, so the ESC thought I was trying to start with the throttle up and refused to arm.
+
+### Calibration
+
+The ESC also needed throttle range calibration. The procedure:
+1. Send maximum signal (2000µs)
+2. Plug in battery, ESC beeps twice (max confirmed)
+3. Drop to minimum signal (1000µs), ESC beeps and stores the range
+4. Now it knows what "off" and "full throttle" mean for your specific controller
+
+After calibration: three beeps, four beeps, silence. That silence is the sweet sound of an armed ESC.
+
+Then the motor slowly started spinning as the code ramped the throttle. It actually works.
+
+### The spark
+
+Oh, and **LiPo batteries spark** when you plug them into the ESC. The first time it happened, I nearly dropped everything. It's just the capacitors inside the ESC drawing a surge of current. Push the connector together quickly and firmly. It's fine. Probably.
+
+## The state machine
+
+Before writing the PID controller, I implemented the flight state machine. This defines what the plane is allowed to do and when:
+
+- **BOOT** → **CALIBRATING** → **DISARMED** → **ARMED** → **MANUAL** / **STABILIZE**
+- Plus **FAILSAFE_SHORT**, **FAILSAFE_LONG**, and **EMERGENCY** for when things go wrong
+
+You can't arm without the gyro calibrated, radio link active, throttle at idle, and battery voltage OK. If radio is lost for more than **100ms**, it goes to short failsafe (wings level, cruise throttle). If lost for more than **10 seconds**, long failsafe (motor cut, glide down). If the sensor fails, it goes straight to emergency (motor cut, servos neutral).
+
+I wrote **38 unit tests** for every transition and edge case. This is the part that keeps you from crashing, so I wanted it solid before anything else.
+
+## Next up
+
+Part 5: The ground station. Building a React app with PS5 controller input, real-time maps, and airspace overlays. This is where the web developer side of me gets to have some fun.
+
+---
+
+*Code: [GitHub](https://github.com/SoucaThomas/UAV-FreeRTOS).*

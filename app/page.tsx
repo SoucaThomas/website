@@ -3,81 +3,27 @@
 import { useState, useEffect } from "react";
 import { getProjects, getExperience, type Experience } from "@/lib/data";
 import type { Project } from "@/lib/github";
-import { ExternalLink, ArrowUp, Download, Send, X } from "lucide-react";
+import { ExternalLink, ArrowUp, Download, ArrowRight, X } from "lucide-react";
 
 const NAV_ITEMS = [
-  { label: "About", href: "#about" },
-  { label: "Projects", href: "#projects" },
+  { label: "Work", href: "#projects" },
   { label: "Experience", href: "#experience" },
-  { label: "Technologies", href: "#technologies" },
-  { label: "Contact", href: "#contact" },
-  { label: "Resume", href: "#resume" },
-];
-
-const SKILLS = [
-  "Full-Stack Development",
-  "React & React Native",
-  "Next.js & NestJS",
-  "TypeScript & JavaScript",
-  "Node.js & Express",
-  "TanStack & Prisma",
-  "Mobile Development",
-  "AI Integration",
-  "API Development",
-  "Swift & Flutter",
+  { label: "Blog", href: "/blog" },
 ];
 
 const TECHNOLOGIES: Record<string, string[]> = {
-  Frontend: [
-    "Next.js",
-    "React",
-    "React Native",
-    "Angular",
-    "TypeScript",
-    "Tailwind CSS",
-    "Framer Motion",
-    "Swift",
-    "Flutter",
-    "TanStack Start",
-  ],
-  Backend: [
-    "Node.js",
-    "NestJS",
-    "Express",
-    "Prisma",
-    "MongoDB",
-    "PostgreSQL",
-    "Convex",
-  ],
-  "Programming Languages": [
-    "TypeScript",
-    "JavaScript",
-    "C++",
-    "C#",
-    "C",
-  ],
-  "DevOps & Tools": [
-    "Docker",
-    "Git",
-    "AWS",
-    "Linux",
-    "REST APIs",
-    "WebSockets",
-    "CI/CD",
-  ],
+  Frontend: ["Next.js", "React", "React Native", "TypeScript", "Tailwind", "Swift", "Flutter"],
+  Backend: ["Node.js", "NestJS", "Prisma", "PostgreSQL", "MongoDB", "Convex"],
+  Languages: ["TypeScript", "JavaScript", "C++", "C#", "C"],
+  Infra: ["Docker", "AWS", "Git", "Linux", "CI/CD"],
 };
-
-const STATS = [
-  { value: "2+", label: "Years Experience" },
-  { value: "10+", label: "Projects" },
-  { value: "20+", label: "Technologies" },
-];
 
 export default function Home() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [experience, setExperience] = useState<Experience[]>([]);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const [popupProject, setPopupProject] = useState<string | null>(null);
 
   useEffect(() => {
     setProjects(getProjects());
@@ -87,460 +33,410 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 400);
-
-      const sections = NAV_ITEMS.map((item) => item.href.replace("#", ""));
+      const sections = ["projects", "experience"];
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 120) {
-            setActiveSection(sections[i]);
-            break;
-          }
+        if (el && el.getBoundingClientRect().top <= 120) {
+          setActiveSection(sections[i]);
+          break;
         }
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToSection = (href: string) => {
-    const id = href.replace("#", "");
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
   };
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const [popupProject, setPopupProject] = useState<string | null>(null);
 
   const featuredProjects = projects.filter((p) => p.featured);
   const otherProjects = projects.filter((p) => !p.featured);
 
   return (
-    <div className="min-h-screen bg-white text-black selection:bg-black selection:text-white">
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-40 border-b-2 border-black bg-white">
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-end px-6">
-          <div className="hidden md:flex items-center">
-            {NAV_ITEMS.map((item, i) => (
-              <div key={item.label} className="flex items-center">
-                {i > 0 && (
-                  <div className="mx-0 h-4 w-px bg-black" />
-                )}
+    <div className="min-h-screen" style={{ fontFamily: "var(--font-body)" }}>
+      {/* Nav — minimal, out of the way */}
+      <nav className="fixed top-0 left-0 right-0 z-40 backdrop-blur-md bg-[var(--color-bg)]/80">
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6 lg:px-10">
+          <a
+            href="/"
+            className="text-base font-bold tracking-tight"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            souca.dev
+          </a>
+          <div className="flex items-center gap-1">
+            {NAV_ITEMS.map((item) =>
+              item.href.startsWith("#") ? (
                 <button
+                  key={item.label}
                   onClick={() => scrollToSection(item.href)}
-                  className={`px-4 py-1 text-xs font-bold uppercase tracking-widest transition-colors duration-200 hover:bg-black hover:text-white rounded-none ${
+                  className={`px-3 py-1.5 text-[13px] font-medium rounded-full transition-all duration-200 ${
                     activeSection === item.href.replace("#", "")
-                      ? "bg-black text-white"
-                      : "text-black"
+                      ? "bg-[var(--color-text)] text-[var(--color-bg)]"
+                      : "text-[var(--color-text-secondary)] hover:text-[var(--color-text)]"
                   }`}
                 >
                   {item.label}
                 </button>
-              </div>
-            ))}
-          </div>
-
-          {/* Mobile menu */}
-          <div className="flex md:hidden items-center gap-2 overflow-x-auto">
-            {NAV_ITEMS.map((item) => (
-              <button
-                key={item.label}
-                onClick={() => scrollToSection(item.href)}
-                className={`whitespace-nowrap px-2 py-1 text-[10px] font-bold uppercase tracking-wider transition-colors duration-200 hover:bg-black hover:text-white rounded-none ${
-                  activeSection === item.href.replace("#", "")
-                    ? "bg-black text-white"
-                    : "text-black"
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
+              ) : (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="px-3 py-1.5 text-[13px] font-medium rounded-full text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors duration-200"
+                >
+                  {item.label}
+                </a>
+              )
+            )}
+            <a
+              href="mailto:thomassouca@gmail.com"
+              className="ml-2 px-4 py-1.5 text-[13px] font-semibold rounded-full text-[var(--color-bg)] transition-opacity duration-200 hover:opacity-90"
+              style={{ backgroundColor: "var(--color-text)" }}
+            >
+              Contact
+            </a>
           </div>
         </div>
       </nav>
 
-      {/* Hero */}
-      <section className="relative min-h-screen flex flex-col justify-center border-b-2 border-black pt-14">
-        <div className="mx-auto w-full max-w-7xl px-6">
-          <div className="relative">
-            <p className="mb-4 text-sm font-bold uppercase tracking-widest text-neutral-500">
-              Full-Stack Developer & Co-Founder
-            </p>
+      {/* =============================================
+          HERO — Full viewport, asymmetric two-column
+          ============================================= */}
+      <section className="min-h-screen grid lg:grid-cols-[1.4fr,1fr] items-end lg:items-center pt-14">
+        {/* Left — name and intro */}
+        <div className="px-6 lg:px-10 lg:pl-[max(2.5rem,calc((100vw-72rem)/2+2.5rem))] pb-16 lg:pb-0 pt-24 lg:pt-0">
+          <p
+            className="text-sm font-semibold tracking-wide mb-5"
+            style={{ color: "var(--color-accent)" }}
+          >
+            Full-Stack Developer & Co-Founder
+          </p>
 
-            <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tight leading-none">
-              Souca
-              <br />
-              Thomas
-            </h1>
+          <h1
+            className="text-[clamp(3.5rem,9vw,8rem)] font-extrabold leading-[0.85] tracking-tighter"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            Souca
+            <br />
+            Thomas
+          </h1>
 
-            <div className="mt-8 flex items-center gap-4">
-              <div className="h-px flex-1 bg-black" />
-              <p className="text-sm font-bold uppercase tracking-widest">
-                Est. 2024
+          <p
+            className="mt-8 text-base leading-relaxed max-w-md"
+            style={{ color: "var(--color-text-secondary)" }}
+          >
+            I build products from zero to launch — marketplace apps, AI-powered tools,
+            and consumer mobile experiences. Co-founder of TSC.
+          </p>
+
+          <div className="mt-10 flex items-center gap-5">
+            <a
+              href="#projects"
+              onClick={(e) => { e.preventDefault(); scrollToSection("#projects"); }}
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-full text-[var(--color-bg)] transition-opacity duration-200 hover:opacity-90"
+              style={{ backgroundColor: "var(--color-accent)" }}
+            >
+              See my work
+              <ArrowRight className="h-3.5 w-3.5" />
+            </a>
+            <a
+              href="/resume.pdf"
+              download
+              className="inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200 hover:text-[var(--color-accent)]"
+              style={{ color: "var(--color-text-secondary)" }}
+            >
+              <Download className="h-3.5 w-3.5" />
+              Resume
+            </a>
+          </div>
+        </div>
+
+        {/* Right — quick facts / stats panel */}
+        <div
+          className="hidden lg:flex flex-col justify-center h-full px-10 py-20"
+          style={{ backgroundColor: "var(--color-bg-elevated)", borderLeft: "1px solid var(--color-border)" }}
+        >
+          <div className="space-y-10 max-w-sm">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--color-text-muted)" }}>
+                Currently
+              </p>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
+                Building a <span className="font-semibold text-[var(--color-text)]">UAV flight controller</span> — bare metal STM32 + FreeRTOS
+              </p>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
+                Shipping <span className="font-semibold text-[var(--color-text)]">Krumb</span> — AI-powered recipe extraction
+              </p>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
+                Co-founding <span className="font-semibold text-[var(--color-text)]">TSC Marketplace</span>
               </p>
             </div>
 
-            <p className="mt-8 max-w-xl text-lg leading-relaxed text-neutral-700">
-              Building modern web and mobile applications with React, React
-              Native, and AI-powered solutions.
-            </p>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--color-text-muted)" }}>
+                Stack
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {["React", "React Native", "Next.js", "TypeScript", "C/C++", "STM32", "Swift"].map((t) => (
+                  <span
+                    key={t}
+                    className="text-xs font-medium px-2.5 py-1 rounded-md"
+                    style={{ backgroundColor: "var(--color-bg)", border: "1px solid var(--color-border)", color: "var(--color-text-secondary)" }}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
 
-            {/* Stats */}
-            <div className="mt-12 grid grid-cols-3 gap-0 border-2 border-black">
-              {STATS.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="border-r-2 border-black p-6 last:border-r-0 text-center"
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--color-text-muted)" }}>
+                Links
+              </p>
+              <div className="flex gap-4">
+                <a
+                  href="https://github.com/SoucaThomas"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-medium underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-accent)] transition-colors"
+                  style={{ color: "var(--color-text-secondary)" }}
                 >
-                  <p className="text-3xl font-black md:text-5xl">{stat.value}</p>
-                  <p className="mt-2 text-xs font-bold uppercase tracking-widest text-neutral-500">
-                    {stat.label}
-                  </p>
-                </div>
+                  GitHub
+                </a>
+                <a
+                  href="mailto:thomas@souca.dev"
+                  className="text-sm font-medium underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-accent)] transition-colors"
+                  style={{ color: "var(--color-text-secondary)" }}
+                >
+                  Email
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =============================================
+          PROJECTS — Offset grid, staggered cards
+          ============================================= */}
+      <section id="projects" className="py-28 lg:py-36">
+        <div className="mx-auto max-w-7xl px-6 lg:px-10">
+          {/* Section header — offset to create tension */}
+          <div className="max-w-3xl">
+            <SectionLabel>Selected Work</SectionLabel>
+            <h2
+              className="mt-3 text-3xl font-bold tracking-tight md:text-[2.75rem] md:leading-[1.1]"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              Products I&apos;ve built
+            </h2>
+            <p className="mt-4 text-base max-w-lg" style={{ color: "var(--color-text-secondary)" }}>
+              From AI recipe extraction to marketplace platforms — shipping production apps that serve real users.
+            </p>
+          </div>
+
+          {/* Featured — alternating layout */}
+          {featuredProjects.length > 0 && (
+            <div className="mt-16 space-y-4">
+              {featuredProjects.map((project, i) => (
+                <FeaturedProjectCard
+                  key={project.id}
+                  project={project}
+                  index={i}
+                  onLiveClick={(name) => setPopupProject(name)}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Other projects — compact horizontal list */}
+          {otherProjects.length > 0 && (
+            <div className="mt-20">
+              <p className="text-xs font-semibold uppercase tracking-wider mb-5" style={{ color: "var(--color-text-muted)" }}>
+                Other projects
+              </p>
+              <div
+                className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px rounded-xl overflow-hidden"
+                style={{ backgroundColor: "var(--color-border)" }}
+              >
+                {otherProjects.map((project) => (
+                  <CompactProjectCard
+                    key={project.id}
+                    project={project}
+                    onLiveClick={(name) => setPopupProject(name)}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* =============================================
+          EXPERIENCE — Timeline with offset columns
+          ============================================= */}
+      <section id="experience" className="py-28 lg:py-36">
+        <div className="mx-auto max-w-7xl px-6 lg:px-10">
+          <div className="grid lg:grid-cols-[1fr,2fr] gap-16 lg:gap-24">
+            {/* Left — sticky section header */}
+            <div className="lg:sticky lg:top-24 lg:self-start">
+              <SectionLabel>Experience</SectionLabel>
+              <h2
+                className="mt-3 text-3xl font-bold tracking-tight md:text-[2.75rem] md:leading-[1.1]"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                Where I&apos;ve
+                <br />
+                worked
+              </h2>
+              <p className="mt-4 text-sm" style={{ color: "var(--color-text-secondary)" }}>
+                From founding my own company to shipping features at high-growth startups.
+              </p>
+            </div>
+
+            {/* Right — experience entries */}
+            <div className="space-y-0">
+              {experience.map((exp, i) => (
+                <ExperienceRow key={i} experience={exp} isLast={i === experience.length - 1} />
               ))}
             </div>
           </div>
         </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-          <div className="flex flex-col items-center gap-2">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
-              Scroll
-            </span>
-            <div className="h-8 w-px bg-black" />
-          </div>
-        </div>
       </section>
 
-      {/* About */}
-      <section id="about" className="border-b-2 border-black py-24">
-        <div className="mx-auto max-w-7xl px-6">
-          <SectionHeading number="01" title="About" />
-
-          <div className="mt-16 grid gap-12 lg:grid-cols-2">
-            <div>
-              <p className="text-lg leading-relaxed text-neutral-700">
-                I&apos;m a full-stack developer and co-founder of TSC, building
-                marketplace products and consumer apps. I specialize in React,
-                React Native, and AI-powered solutions, creating scalable
-                products that generate real revenue and serve real users.
-              </p>
-              <p className="mt-6 text-lg leading-relaxed text-neutral-700">
-                From AI-powered recipe extraction at Krumb to connecting
-                handymen with customers at TSC Marketplace, I build products
-                from zero to launch. Previously a Founding Engineer at Wavelink
-                where I shipped features generating $1K+ MRR.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="mb-6 text-xs font-bold uppercase tracking-widest">
-                Core Skills
-              </h3>
-              <div className="grid grid-cols-2 gap-0 border-2 border-black">
-                {SKILLS.map((skill, i) => (
-                  <div
-                    key={skill}
-                    className={`border-b-2 border-r-2 border-black p-4 text-sm font-bold uppercase tracking-wider ${
-                      i % 2 !== 0 ? "border-r-0" : ""
-                    } ${i >= SKILLS.length - 2 ? "border-b-0" : ""}`}
-                  >
-                    {skill}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Projects */}
-      <section id="projects" className="border-b-2 border-black py-24">
-        <div className="mx-auto max-w-7xl px-6">
-          <SectionHeading number="02" title="Projects" />
-
-          {/* Featured Projects */}
-          {featuredProjects.length > 0 && (
-            <div className="mt-16">
-              <h3 className="mb-8 text-xs font-bold uppercase tracking-widest border-b-2 border-black pb-3">
-                Featured Projects
-              </h3>
-              <div className="grid gap-8">
-                {featuredProjects.map((project, i) => (
-                  <FeaturedProjectCard
-                    key={project.id}
-                    project={project}
-                    index={i}
-                    onLiveClick={(name) => setPopupProject(name)}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Other Projects */}
-          {otherProjects.length > 0 && (
-            <div className="mt-20">
-              <h3 className="mb-8 text-xs font-bold uppercase tracking-widest border-b-2 border-black pb-3">
-                Other Projects
-              </h3>
-              <div className="grid gap-0 border-2 border-black">
-                {otherProjects.map((project, i) => (
-                  <CompactProjectCard
-                    key={project.id}
-                    project={project}
-                    isLast={i === otherProjects.length - 1}
-                    onLiveClick={(name) => setPopupProject(name)}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Experience */}
-      <section id="experience" className="border-b-2 border-black py-24">
-        <div className="mx-auto max-w-7xl px-6">
-          <SectionHeading number="03" title="Experience" />
-
-          <div className="mt-16">
-            {experience.map((exp, i) => (
-              <ExperienceRow key={i} experience={exp} index={i} isLast={i === experience.length - 1} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Technologies */}
-      <section id="technologies" className="border-b-2 border-black py-24">
-        <div className="mx-auto max-w-7xl px-6">
-          <SectionHeading number="04" title="Technologies" />
-
-          <div className="mt-16 grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+      {/* =============================================
+          TECHNOLOGIES — Full-bleed, compact
+          ============================================= */}
+      <section
+        className="py-20"
+        style={{ backgroundColor: "var(--color-bg-elevated)", borderTop: "1px solid var(--color-border)", borderBottom: "1px solid var(--color-border)" }}
+      >
+        <div className="mx-auto max-w-7xl px-6 lg:px-10">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             {Object.entries(TECHNOLOGIES).map(([category, techs]) => (
               <div key={category}>
-                <h3 className="mb-6 border-b-2 border-black pb-3 text-xs font-bold uppercase tracking-widest">
+                <h3
+                  className="text-[11px] font-semibold uppercase tracking-wider mb-4"
+                  style={{ color: "var(--color-text-muted)" }}
+                >
                   {category}
                 </h3>
-                <div className="flex flex-col gap-0">
-                  {techs.map((tech) => (
-                    <div
-                      key={tech}
-                      className="border-b border-neutral-200 py-3 text-sm font-bold uppercase tracking-wider transition-colors duration-200 hover:bg-black hover:text-white hover:pl-3"
-                    >
-                      {tech}
-                    </div>
-                  ))}
-                </div>
+                <p className="text-sm leading-loose" style={{ color: "var(--color-text-secondary)" }}>
+                  {techs.join(" · ")}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Contact */}
-      <section id="contact" className="border-b-2 border-black py-24">
-        <div className="mx-auto max-w-7xl px-6">
-          <SectionHeading number="05" title="Contact" />
-
-          <div className="mt-16 grid gap-16 lg:grid-cols-2">
+      {/* =============================================
+          CONTACT — Wide, statement-style
+          ============================================= */}
+      <section className="py-28 lg:py-36">
+        <div className="mx-auto max-w-7xl px-6 lg:px-10">
+          <div className="grid lg:grid-cols-[2fr,1fr] gap-12 items-end">
             <div>
-              <p className="text-lg leading-relaxed text-neutral-700">
-                Interested in working together or have a question? Send me a
-                message and I will get back to you.
+              <h2
+                className="text-4xl font-bold tracking-tight md:text-[3.5rem] md:leading-[1.05]"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                Let&apos;s build
+                <br />
+                something together
+              </h2>
+              <p className="mt-5 text-base max-w-md" style={{ color: "var(--color-text-secondary)" }}>
+                Always open to interesting projects and collaborations. Drop me a line.
               </p>
-
-              <div className="mt-8 space-y-4">
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-bold uppercase tracking-widest text-neutral-500">
-                    Email
-                  </span>
-                  <div className="h-px flex-1 bg-neutral-200" />
-                  <a
-                    href="mailto:thomassouca@gmail.com"
-                    className="text-sm font-bold underline underline-offset-4 transition-colors duration-200 hover:text-[#2563eb]"
-                  >
-                    thomassouca@gmail.com
-                  </a>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-bold uppercase tracking-widest text-neutral-500">
-                    Email
-                  </span>
-                  <div className="h-px flex-1 bg-neutral-200" />
-                  <a
-                    href="mailto:thomas@souca.dev"
-                    className="text-sm font-bold underline underline-offset-4 transition-colors duration-200 hover:text-[#2563eb]"
-                  >
-                    thomas@souca.dev
-                  </a>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-bold uppercase tracking-widest text-neutral-500">
-                    GitHub
-                  </span>
-                  <div className="h-px flex-1 bg-neutral-200" />
-                  <a
-                    href="https://github.com/SoucaThomas"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-sm font-bold underline underline-offset-4 transition-colors duration-200 hover:text-[#2563eb]"
-                  >
-                    SoucaThomas
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
-                </div>
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <a
+                  href="mailto:thomassouca@gmail.com"
+                  className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-full text-[var(--color-bg)] transition-opacity duration-200 hover:opacity-90"
+                  style={{ backgroundColor: "var(--color-accent)" }}
+                >
+                  thomassouca@gmail.com
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </a>
+                <a
+                  href="/resume.pdf"
+                  download
+                  className="inline-flex items-center gap-2 px-5 py-3 text-sm font-semibold rounded-full transition-all duration-200"
+                  style={{ border: "1px solid var(--color-border-strong)", color: "var(--color-text-secondary)" }}
+                >
+                  <Download className="h-3.5 w-3.5" />
+                  Resume
+                </a>
               </div>
             </div>
-
-            {/* Contact Form */}
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="space-y-0"
-            >
-              <div className="border-2 border-black">
-                <input
-                  type="text"
-                  placeholder="YOUR NAME"
-                  className="w-full border-b-2 border-black bg-white px-4 py-4 text-sm font-bold uppercase tracking-widest placeholder:text-neutral-400 focus:bg-neutral-50 focus:outline-none rounded-none"
-                />
-                <input
-                  type="email"
-                  placeholder="YOUR EMAIL"
-                  className="w-full border-b-2 border-black bg-white px-4 py-4 text-sm font-bold uppercase tracking-widest placeholder:text-neutral-400 focus:bg-neutral-50 focus:outline-none rounded-none"
-                />
-                <input
-                  type="text"
-                  placeholder="SUBJECT"
-                  className="w-full border-b-2 border-black bg-white px-4 py-4 text-sm font-bold uppercase tracking-widest placeholder:text-neutral-400 focus:bg-neutral-50 focus:outline-none rounded-none"
-                />
-                <textarea
-                  rows={6}
-                  placeholder="YOUR MESSAGE"
-                  className="w-full resize-none bg-white px-4 py-4 text-sm font-bold uppercase tracking-widest placeholder:text-neutral-400 focus:bg-neutral-50 focus:outline-none rounded-none"
-                />
-              </div>
-              <button
-                type="submit"
-                className="mt-0 flex w-full items-center justify-center gap-2 border-2 border-t-0 border-black bg-black px-6 py-4 text-sm font-bold uppercase tracking-widest text-white transition-colors duration-200 hover:bg-[#2563eb] hover:border-[#2563eb] rounded-none"
+            <div className="hidden lg:block text-right">
+              <a
+                href="https://github.com/SoucaThomas"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-medium underline underline-offset-4 decoration-[var(--color-border)] hover:decoration-[var(--color-accent)] transition-colors"
+                style={{ color: "var(--color-text-muted)" }}
               >
-                Send Message
-                <Send className="h-4 w-4" />
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
-
-      {/* Resume */}
-      <section id="resume" className="border-b-2 border-black py-24">
-        <div className="mx-auto max-w-7xl px-6">
-          <SectionHeading number="06" title="Resume" />
-
-          <div className="mt-16 flex flex-col items-center text-center">
-            <p className="max-w-md text-lg leading-relaxed text-neutral-700">
-              Download my resume to learn more about my experience,
-              education, and skills.
-            </p>
-            <a
-              href="/resume.pdf"
-              download
-              className="mt-8 inline-flex items-center gap-3 border-2 border-black bg-black px-8 py-4 text-sm font-bold uppercase tracking-widest text-white transition-colors duration-200 hover:bg-[#2563eb] hover:border-[#2563eb] rounded-none"
-            >
-              <Download className="h-4 w-4" />
-              Download Resume
-            </a>
+                github.com/SoucaThomas
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-16">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="flex flex-col items-center gap-6 text-center">
-            <p className="text-4xl font-black uppercase tracking-tight md:text-6xl">
-              Souca Thomas
-            </p>
-            <div className="flex items-center gap-4">
-              <a
-                href="mailto:thomassouca@gmail.com"
-                className="text-xs font-bold uppercase tracking-widest text-neutral-500 transition-colors duration-200 hover:text-black"
-              >
-                Email
-              </a>
-              <div className="h-3 w-px bg-neutral-300" />
-              <a
-                href="https://github.com/SoucaThomas"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs font-bold uppercase tracking-widest text-neutral-500 transition-colors duration-200 hover:text-black"
-              >
-                GitHub
-              </a>
-              <div className="h-3 w-px bg-neutral-300" />
-              <a
-                href="/resume.pdf"
-                download
-                className="text-xs font-bold uppercase tracking-widest text-neutral-500 transition-colors duration-200 hover:text-black"
-              >
-                Resume
-              </a>
-            </div>
-            <div className="mt-4 h-px w-full max-w-xs bg-neutral-200" />
-            <p className="text-xs font-bold uppercase tracking-widest text-neutral-400">
-              {new Date().getFullYear()} / All Rights Reserved
-            </p>
-          </div>
+      <footer className="py-8" style={{ borderTop: "1px solid var(--color-border)" }}>
+        <div className="mx-auto max-w-7xl px-6 lg:px-10 flex items-center justify-between">
+          <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>
+            {new Date().getFullYear()} Souca Thomas
+          </p>
+          <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>
+            Romania
+          </p>
         </div>
       </footer>
 
       {/* Scroll to top */}
       {showScrollTop && (
         <button
-          onClick={scrollToTop}
-          className="fixed bottom-6 right-6 z-50 border-2 border-black bg-black p-3 text-white transition-colors duration-200 hover:bg-[#2563eb] hover:border-[#2563eb] rounded-none"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="fixed bottom-6 right-6 z-50 p-3 rounded-full text-[var(--color-bg)] shadow-lg transition-opacity duration-200 hover:opacity-90"
+          style={{ backgroundColor: "var(--color-text)" }}
           aria-label="Scroll to top"
         >
           <ArrowUp className="h-4 w-4" />
         </button>
       )}
 
-      {/* Live demo unavailable popup */}
+      {/* Demo unavailable popup */}
       {popupProject && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm"
           onClick={() => setPopupProject(null)}
         >
           <div
-            className="relative mx-4 w-full max-w-md border-2 border-black bg-white p-8"
+            className="relative mx-4 w-full max-w-sm rounded-2xl bg-[var(--color-bg)] p-8 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setPopupProject(null)}
-              className="absolute top-4 right-4 text-neutral-400 transition-colors hover:text-black"
+              className="absolute top-4 right-4 text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors"
             >
               <X className="h-5 w-5" />
             </button>
-            <h3 className="text-xl font-black uppercase tracking-wider">
+            <h3 className="text-lg font-bold" style={{ fontFamily: "var(--font-display)" }}>
               Demo Unavailable
             </h3>
-            <p className="mt-4 text-sm leading-relaxed text-neutral-600">
-              The live demo for <span className="font-bold text-black">{popupProject}</span> is currently down for maintenance. Check back soon.
+            <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
+              The live demo for <span className="font-semibold text-[var(--color-text)]">{popupProject}</span> is currently down.
             </p>
             <button
               onClick={() => setPopupProject(null)}
-              className="mt-6 w-full border-2 border-black bg-black px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-colors duration-200 hover:bg-[#2563eb] hover:border-[#2563eb] rounded-none"
+              className="mt-6 w-full py-2.5 text-sm font-semibold rounded-full text-[var(--color-bg)] hover:opacity-90 transition-opacity"
+              style={{ backgroundColor: "var(--color-text)" }}
             >
-              Got It
+              Got it
             </button>
           </div>
         </div>
@@ -553,33 +449,14 @@ export default function Home() {
    Sub-components
    ========================================= */
 
-function SectionHeading({
-  number,
-  title,
-}: {
-  number: string;
-  title: string;
-}) {
+function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex items-end gap-4">
-      <span className="text-6xl font-black leading-none text-neutral-200 md:text-8xl">
-        {number}
-      </span>
-      <div className="flex-1">
-        <h2 className="text-3xl font-black uppercase tracking-widest md:text-5xl">
-          {title}
-        </h2>
-        <div className="mt-2 h-0.5 w-full bg-black" />
-      </div>
-    </div>
-  );
-}
-
-function StatusBadge({ status }: { status: string }) {
-  return (
-    <span className="inline-block border-2 border-black px-3 py-1 text-[10px] font-bold uppercase tracking-widest">
-      {status}
-    </span>
+    <p
+      className="text-xs font-semibold uppercase tracking-wider"
+      style={{ color: "var(--color-accent)" }}
+    >
+      {children}
+    </p>
   );
 }
 
@@ -592,99 +469,97 @@ function FeaturedProjectCard({
   index: number;
   onLiveClick: (name: string) => void;
 }) {
-  const number = String(index + 1).padStart(2, "0");
-
   return (
-    <div className="group border-2 border-black transition-colors duration-200 hover:bg-black hover:text-white rounded-none">
-      <div className="p-8 md:p-10">
-        {/* Header: Number + Name + Status */}
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="flex items-baseline gap-3">
-            <span className="text-4xl font-black text-neutral-300 transition-colors duration-200 group-hover:text-neutral-600 md:text-5xl">
-              #{number}
-            </span>
-            <h3 className="text-2xl font-black uppercase tracking-wider md:text-3xl">
+    <div
+      className="group grid lg:grid-cols-[1fr,1.5fr] gap-6 rounded-xl p-6 lg:p-8 transition-all duration-300 hover:shadow-md"
+      style={{
+        backgroundColor: "var(--color-bg-elevated)",
+        border: "1px solid var(--color-border)",
+      }}
+    >
+      {/* Left — meta */}
+      <div className="flex flex-col justify-between">
+        <div>
+          <div className="flex items-center gap-3">
+            <h3
+              className="text-xl font-bold lg:text-2xl"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
               {project.name}
             </h3>
+            {project.status && (
+              <span
+                className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full"
+                style={{ backgroundColor: "oklch(0.62 0.22 28 / 0.08)", color: "var(--color-accent)" }}
+              >
+                {project.status}
+              </span>
+            )}
           </div>
-          {project.status && (
-            <div className="transition-colors duration-200 group-hover:border-white [&>span]:group-hover:border-white [&>span]:group-hover:text-white">
-              <StatusBadge status={project.status} />
-            </div>
+          {project.role && (
+            <p className="mt-1.5 text-sm font-medium" style={{ color: "var(--color-text-muted)" }}>
+              {project.role}
+            </p>
           )}
         </div>
 
-        {/* Role */}
-        {project.role && (
-          <p className="mt-4 text-sm font-bold uppercase tracking-widest text-neutral-500 transition-colors duration-200 group-hover:text-neutral-400">
-            {project.role}
-          </p>
-        )}
+        {/* Links at bottom of left column */}
+        <div className="mt-6 flex items-center gap-4">
+          {project.html_url && (
+            <a
+              href={project.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm font-medium transition-colors duration-200 hover:text-[var(--color-accent)]"
+              style={{ color: "var(--color-text-secondary)" }}
+            >
+              Source <ExternalLink className="h-3 w-3" />
+            </a>
+          )}
+          {project.homepage && (
+            <button
+              onClick={() => onLiveClick(project.name)}
+              className="inline-flex items-center gap-1.5 text-sm font-medium transition-colors duration-200 hover:text-[var(--color-accent)]"
+              style={{ color: "var(--color-text-secondary)" }}
+            >
+              Live <ExternalLink className="h-3 w-3" />
+            </button>
+          )}
+        </div>
+      </div>
 
-        {/* Long Description */}
+      {/* Right — description and details */}
+      <div>
         {project.longDescription && (
-          <p className="mt-6 text-base leading-relaxed text-neutral-600 transition-colors duration-200 group-hover:text-neutral-300">
+          <p className="text-sm leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
             {project.longDescription}
           </p>
         )}
 
-        {/* Highlights */}
         {project.highlights && project.highlights.length > 0 && (
-          <div className="mt-6">
-            <h4 className="mb-3 text-xs font-bold uppercase tracking-widest text-neutral-500 transition-colors duration-200 group-hover:text-neutral-400">
-              Highlights
-            </h4>
-            <ul className="space-y-2">
-              {project.highlights.map((highlight, i) => (
-                <li
-                  key={i}
-                  className="flex gap-3 text-sm leading-relaxed text-neutral-600 transition-colors duration-200 group-hover:text-neutral-300"
-                >
-                  <span className="mt-1.5 block h-1.5 w-1.5 flex-shrink-0 bg-black transition-colors duration-200 group-hover:bg-white" />
-                  {highlight}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <ul className="mt-4 space-y-1.5">
+            {project.highlights.map((h, i) => (
+              <li key={i} className="flex gap-2 text-sm leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
+                <span className="mt-[0.45rem] block h-1 w-1 flex-shrink-0 rounded-full" style={{ backgroundColor: "var(--color-accent)" }} />
+                {h}
+              </li>
+            ))}
+          </ul>
         )}
 
-        {/* Topics */}
         {project.topics.length > 0 && (
-          <div className="mt-6 flex flex-wrap gap-2">
+          <div className="mt-5 flex flex-wrap gap-1.5">
             {project.topics.map((topic) => (
               <span
                 key={topic}
-                className="border-2 border-neutral-300 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-neutral-500 transition-colors duration-200 group-hover:border-neutral-500 group-hover:text-neutral-300 rounded-none"
+                className="text-[11px] font-medium px-2 py-0.5 rounded"
+                style={{ backgroundColor: "var(--color-bg)", border: "1px solid var(--color-border)", color: "var(--color-text-muted)" }}
               >
                 {topic}
               </span>
             ))}
           </div>
         )}
-
-        {/* Links */}
-        <div className="mt-8 flex items-center gap-6">
-          {project.html_url && (
-            <a
-              href={project.html_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest transition-colors duration-200 hover:text-[#2563eb] group-hover:text-neutral-300 group-hover:hover:text-[#2563eb]"
-            >
-              Source
-              <ExternalLink className="h-3 w-3" />
-            </a>
-          )}
-          {project.homepage && (
-            <button
-              onClick={() => onLiveClick(project.name)}
-              className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest transition-colors duration-200 hover:text-[#2563eb] group-hover:text-neutral-300 group-hover:hover:text-[#2563eb]"
-            >
-              Live
-              <ExternalLink className="h-3 w-3" />
-            </button>
-          )}
-        </div>
       </div>
     </div>
   );
@@ -692,80 +567,41 @@ function FeaturedProjectCard({
 
 function CompactProjectCard({
   project,
-  isLast,
   onLiveClick,
 }: {
   project: Project;
-  isLast: boolean;
   onLiveClick: (name: string) => void;
 }) {
   return (
-    <div
-      className={`group p-6 transition-colors duration-200 hover:bg-black hover:text-white ${
-        !isLast ? "border-b-2 border-black" : ""
-      }`}
-    >
-      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-        <div className="flex-1">
-          {/* Name + Role */}
-          <div className="flex flex-wrap items-baseline gap-3">
-            <h3 className="text-lg font-black uppercase tracking-wider">
-              {project.name}
-            </h3>
-            {project.role && (
-              <span className="text-xs font-bold uppercase tracking-widest text-neutral-500 transition-colors duration-200 group-hover:text-neutral-400">
-                {project.role}
-              </span>
-            )}
-          </div>
-
-          {/* Description */}
+    <div className="group p-5 transition-colors duration-200" style={{ backgroundColor: "var(--color-bg)" }}>
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h3 className="text-sm font-semibold truncate">{project.name}</h3>
           {project.description && (
-            <p className="mt-2 text-sm leading-relaxed text-neutral-600 transition-colors duration-200 group-hover:text-neutral-300">
+            <p className="mt-1 text-xs truncate" style={{ color: "var(--color-text-muted)" }}>
               {project.description}
             </p>
           )}
-
-          {/* Topics */}
-          {project.topics.length > 0 && (
-            <div className="mt-3 flex flex-wrap gap-2">
-              {project.topics.map((topic) => (
-                <span
-                  key={topic}
-                  className="border border-neutral-300 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-neutral-500 transition-colors duration-200 group-hover:border-neutral-500 group-hover:text-neutral-300 rounded-none"
-                >
-                  {topic}
-                </span>
-              ))}
-            </div>
-          )}
         </div>
-
-        {/* Status + Links */}
-        <div className="flex flex-shrink-0 items-center gap-4">
-          {project.status && (
-            <div className="transition-colors duration-200 group-hover:border-white [&>span]:group-hover:border-white [&>span]:group-hover:text-white">
-              <StatusBadge status={project.status} />
-            </div>
-          )}
+        <div className="flex items-center gap-3 flex-shrink-0">
           {project.html_url && (
             <a
               href={project.html_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest transition-colors duration-200 hover:text-[#2563eb] group-hover:text-neutral-300 group-hover:hover:text-[#2563eb]"
+              className="text-[11px] font-medium transition-colors hover:text-[var(--color-accent)]"
+              style={{ color: "var(--color-text-muted)" }}
             >
               Source
-              <ExternalLink className="h-3 w-3" />
             </a>
           )}
           {project.homepage && (
             <button
               onClick={() => onLiveClick(project.name)}
-              className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest transition-colors duration-200 hover:text-[#2563eb] group-hover:text-neutral-300 group-hover:hover:text-[#2563eb]"
+              className="text-[11px] font-medium transition-colors hover:text-[var(--color-accent)]"
+              style={{ color: "var(--color-text-muted)" }}
             >
               Live
-              <ExternalLink className="h-3 w-3" />
             </button>
           )}
         </div>
@@ -776,69 +612,62 @@ function CompactProjectCard({
 
 function ExperienceRow({
   experience,
-  index,
   isLast,
 }: {
   experience: Experience;
-  index: number;
   isLast: boolean;
 }) {
   return (
     <div
-      className={`grid gap-6 py-10 lg:grid-cols-12 ${
-        !isLast ? "border-b-2 border-black" : ""
-      } ${index === 0 ? "border-t-2 border-black" : ""}`}
+      className="grid md:grid-cols-[140px,1fr] gap-4 py-8"
+      style={{ borderBottom: isLast ? "none" : "1px solid var(--color-border)" }}
     >
-      {/* Left column: period + company */}
-      <div className="lg:col-span-3">
-        <p className="text-xs font-bold uppercase tracking-widest text-neutral-500">
+      {/* Period */}
+      <div>
+        <p className="text-xs font-medium" style={{ color: "var(--color-text-muted)" }}>
           {experience.period}
-        </p>
-        <p className="mt-1 text-sm font-bold uppercase tracking-wider">
-          {experience.company}
         </p>
       </div>
 
-      {/* Middle column: title + description */}
-      <div className="lg:col-span-5">
-        <h3 className="text-xl font-black uppercase tracking-wider">
-          {experience.title}
-        </h3>
-        <p className="mt-3 text-sm leading-relaxed text-neutral-600">
+      {/* Content */}
+      <div>
+        <div className="flex flex-wrap items-baseline gap-2">
+          <h3 className="text-base font-bold" style={{ fontFamily: "var(--font-display)" }}>
+            {experience.title}
+          </h3>
+          <span className="text-sm font-medium" style={{ color: "var(--color-text-muted)" }}>
+            {experience.company}
+          </span>
+        </div>
+
+        <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
           {experience.description}
         </p>
 
-        {/* Responsibilities */}
         {experience.responsibilities.length > 0 && (
-          <ul className="mt-4 space-y-2">
-            {experience.responsibilities.map((resp, i) => (
-              <li
-                key={i}
-                className="flex gap-2 text-sm leading-relaxed text-neutral-600"
-              >
-                <span className="mt-1 block h-1.5 w-1.5 flex-shrink-0 bg-black" />
-                {resp}
+          <ul className="mt-3 space-y-1">
+            {experience.responsibilities.map((r, i) => (
+              <li key={i} className="flex gap-2 text-sm leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
+                <span className="mt-[0.45rem] block h-1 w-1 flex-shrink-0 rounded-full" style={{ backgroundColor: "var(--color-border-strong)" }} />
+                {r}
               </li>
             ))}
           </ul>
         )}
-      </div>
 
-      {/* Right column: technologies */}
-      <div className="lg:col-span-4">
-        <h4 className="mb-3 text-xs font-bold uppercase tracking-widest text-neutral-500">
-          Stack
-        </h4>
-        <div className="flex flex-wrap gap-2">
-          {experience.technologies.map((tech) => (
-            <span
-              key={tech}
-              className="border-2 border-black px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-none"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
+        {experience.technologies.length > 0 && (
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            {experience.technologies.map((tech) => (
+              <span
+                key={tech}
+                className="text-[11px] font-medium px-2 py-0.5 rounded"
+                style={{ backgroundColor: "var(--color-bg-elevated)", color: "var(--color-text-muted)" }}
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
