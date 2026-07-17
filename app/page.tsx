@@ -8,7 +8,6 @@ import { ExternalLink, ArrowUp, Download, ArrowRight, X } from "lucide-react";
 const NAV_ITEMS = [
   { label: "Work", href: "#projects" },
   { label: "Experience", href: "#experience" },
-  { label: "Blog", href: "/blog" },
 ];
 
 const TECHNOLOGIES: Record<string, string[]> = {

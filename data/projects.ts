@@ -67,7 +67,7 @@ const projectsData: Project[] = [
     description:
       'A custom flight controller for a 1.2m MQ-9 Reaper RC plane — bare metal STM32 with FreeRTOS, custom drivers, custom radio protocol, and a ground station app.',
     longDescription:
-      'Building a flight controller from scratch for a 1.2m MQ-9 Reaper RC plane. No ArduPilot, no Betaflight — bare metal STM32 with FreeRTOS, custom drivers, custom radio protocol, and a ground station app. Currently in development with a blog series documenting the build.',
+      'Building a flight controller from scratch for a 1.2m MQ-9 Reaper RC plane. No ArduPilot, no Betaflight — bare metal STM32 with FreeRTOS, custom drivers, custom radio protocol, and a ground station app. Currently in development.',
     role: 'Solo Builder',
     status: 'In Development',
     highlights: [
